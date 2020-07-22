@@ -1,0 +1,110 @@
+.home {
+    div.MuiContainer-maxWidthLg {
+        display: flex;
+        align-items: center;
+    }
+
+    &__banner {
+        position: relative;
+        width: 100%; 
+        height: 700px; 
+        background-size: 100%;
+        background-position: center;
+        background-image: url('/img/background_home.jpg');
+
+        &__container {
+            height: 80%;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+
+            h1 {
+                font-size: 4.2em;
+                font-weight: 700;
+                margin-bottom: 0.2em;
+            }
+    
+            h3 {
+                font-size: 2.5em;
+                font-weight: 300;
+            }
+    
+        }
+    }
+
+    &__features {
+        h3 {
+            font-weight: 500;
+            margin-bottom: 2em;
+        }
+
+        &__items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        button {
+            display: block;
+            margin: 4em auto;   
+        }
+    }
+}
+
+.custom-shape-divider-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+
+    svg {
+        position: relative;
+        display: block;
+        width: calc(155% + 1.3px);
+        height: 153px;
+    }
+
+    .shape-fill {
+        fill: #F2F3FB;
+    }
+}
+
+.feature__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 11px!important;
+    width: 25%;
+    padding: 3%;
+    height: 300px;
+
+    div {
+        width: 66px;
+        font-size: 66px;
+        margin: 0 auto 10px auto;
+        color: #24305E;
+    }
+}
+
+.url-input {
+    // background-color: white;
+    width: 60%;
+    margin-top: 90px;
+    padding: 15px 30px;  
+    position: relative;
+
+    input {
+        color: #262626;
+        font-size: 1.1em;    
+    }
+    // button {
+    //     position: absolute;
+    //     // right: 8px;
+    //     top: 7px;
+    //     font-size: 25px;
+    //     // color: rgba($color: #24305E, $alpha: 0.9);
+    // }
+}
