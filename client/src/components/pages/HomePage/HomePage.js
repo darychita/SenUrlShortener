@@ -16,7 +16,7 @@ const Divider = () => {
 
 const FeatureItem = ({ icon, heading, text} ) => {
     return (
-        <Paper elevation={2} className="feature__item">
+        <Paper elevation={3} className="feature__item">
             <div>{icon}</div>
             <Typography component="h3" variant="h6" align="center" color="textPrimary">
                 {heading}

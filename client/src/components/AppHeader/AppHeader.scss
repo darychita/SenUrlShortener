@@ -4,10 +4,11 @@
     left: 0;
     right: 0;
     z-index: 2;
-    background-color: transparent;
+    width: 100%;
+    // background-color: transparent;
 
     &__container {
-        margin: 15px 0;
+        padding: 15px 0;
         display: flex;
         justify-content: space-between;
         align-items: center;

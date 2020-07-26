@@ -1,13 +1,14 @@
 import React from 'react';
 import AppHeader from '../AppHeader';
-import { HomePage } from '../pages';
+import { HomePage, RegistrationPage, LoginPage } from '../pages';
 import './App.scss';
 
 const App = () => {
     return (
         <>
             <AppHeader />
-            <HomePage />
+            <LoginPage />
+            {/* <HomePage /> */}
         </>
     );
 };
