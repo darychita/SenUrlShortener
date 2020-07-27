@@ -50,6 +50,12 @@
             margin: 4em auto;   
         }
     }
+
+    .shortener {
+        margin-top: 90px;
+        width: 60%;
+    }
+    
 }
 
 .custom-shape-divider-bottom {
@@ -91,22 +97,21 @@
     }
 }
 
-.url-input {
-    // background-color: white;
-    width: 60%;
-    margin-top: 90px;
-    padding: 15px 30px;  
-    position: relative;
+// .url-input {
+//     // background-color: white;
+//     width: 60%;
+//     padding: 15px 30px;  
+//     position: relative;
 
-    input {
-        color: #262626;
-        font-size: 1.1em;    
-    }
-    // button {
-    //     position: absolute;
-    //     // right: 8px;
-    //     top: 7px;
-    //     font-size: 25px;
-    //     // color: rgba($color: #24305E, $alpha: 0.9);
-    // }
-}
+//     input {
+//         color: #262626;
+//         font-size: 1.1em;    
+//     }
+//     // button {
+//     //     position: absolute;
+//     //     // right: 8px;
+//     //     top: 7px;
+//     //     font-size: 25px;
+//     //     // color: rgba($color: #24305E, $alpha: 0.9);
+//     // }
+// }

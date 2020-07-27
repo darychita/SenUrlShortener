@@ -4,7 +4,6 @@
   "description": "API for Sen Url Shortener",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "keywords": [
@@ -19,7 +18,7 @@
     "passport": "^0.4.1"
   },
   "devDependencies": {
-    "eslint": "^7.3.0",
+    "eslint": "^6.6.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.21.2",
     "nodemon": "^2.0.4"
