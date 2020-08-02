@@ -1,6 +1,6 @@
 import React from 'react';
 import AppHeader from '../AppHeader';
-import { HomePage, RegistrationPage, LoginPage } from '../pages';
+import { HomePage, RegistrationPage, LoginPage, PersonalPage } from '../pages';
 import './App.scss';
 
 const App = () => {
@@ -9,6 +9,7 @@ const App = () => {
             <AppHeader />
             {/* <LoginPage /> */}
             <HomePage />
+            {/* <PersonalPage /> */}
         </>
     );
 };

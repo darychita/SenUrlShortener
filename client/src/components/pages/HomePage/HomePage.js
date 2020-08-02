@@ -1,9 +1,9 @@
 import React from 'react';
-import { Container, Box, Typography, Paper, Button, InputBase } from '@material-ui/core';
+import { Container, Box, Typography, Button } from '@material-ui/core';
 import Features from './Features';
 import Footer from '../../Footer';
 import Divider from './Divider';
-import Shortener from '../../Shortener/Shortener';
+import Shortener from '../../Shortener';
 import './HomePage.scss';
 
 
@@ -32,24 +32,6 @@ const HomePage = () => {
                     Key Features
                 </Typography>
                 <Features />
-                {/* <Container className="home__features__items">
-                    <FeatureItem 
-                        icon={<SnippetsOutlined />}
-                        heading="Link Managment" 
-                        text="Manage all your links that you have ever shortened." 
-                    />
-                    <FeatureItem 
-                        icon={<AreaChartOutlined />}
-                        heading="Statistics"
-                        text="You can get info about quantity of clicks, counties, devices, systems." 
-                    />
-                    <FeatureItem 
-                        icon={<QrcodeOutlined />} 
-                        heading="QR Code" 
-                        text="Get beautiful QR code for your link." 
-                    />
-
-                </Container> */}
                 <Button variant="contained" color="secondary" size="large">Get started</Button>
             </section>
             <Footer />

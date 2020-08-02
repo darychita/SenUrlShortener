@@ -1,0 +1,22 @@
+.personal-page {
+    &__header {
+        padding: 200px 0 100px 0;
+    }
+    
+    &__subheader {
+        padding: 100px 0 50px 0;
+    }
+
+    .shortener-box {
+        // background-color: red;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .links-list-box {
+        margin-bottom: 100px;
+    }
+}

@@ -2,25 +2,25 @@ import React from 'react';
 import { Paper, InputBase, Box, Chip, Typography, Grid } from '@material-ui/core';
 import './Shortener.scss';
 
-const Shortener = ({ isAuthorized = false }) => {
+const Shortener = ({ isAuthorized = true }) => {
     const advancedSettings = (
         <Grid container spacing={4}>
             <Grid item xs={6} className="shortener__small-input__container">
-                <Typography>Custom link</Typography>
-                <Paper>
-                    <InputBase className="shortener__small-input" size="small"/>
+                <Typography color="textPrimary">Custom link</Typography>
+                <Paper elevation={1}>
+                    <InputBase className="shortener__small-input" size="small" placeholder="Custom link"/>
                 </Paper>
             </Grid>
             <Grid item xs={6} className="shortener__small-input__container">
-                <Typography>Password</Typography>
-                <Paper>
-                    <InputBase className="shortener__small-input" size="small"/>
+                <Typography color="textPrimary">Password</Typography>
+                <Paper elevation={1}>
+                    <InputBase className="shortener__small-input" size="small" placeholder="Password"/>
                 </Paper>
             </Grid>
             <Grid item xs={12} className="shortener__small-input__container">
-                <Typography>Description</Typography>
-                <Paper>
-                    <InputBase className="shortener__small-input" size="small"/>
+                <Typography color="textPrimary">Description</Typography>
+                <Paper elevation={1}>
+                    <InputBase className="shortener__small-input" size="small" placeholder="Description"/>
                 </Paper>
             </Grid>
         </Grid>                    
@@ -29,12 +29,11 @@ const Shortener = ({ isAuthorized = false }) => {
     return (
         <Box className="shortener">
             <form noValidate autoComplete="off">
-                <Paper className="shortener__paper">
+                <Paper className="shortener__paper" elevation={1}>
                     <InputBase fullWidth placeholder="Paste your long URL.."  />
                 </Paper>
                 { isAuthorized ? advancedSettings : null }
             </form>
-
         </Box>
     );
 };
