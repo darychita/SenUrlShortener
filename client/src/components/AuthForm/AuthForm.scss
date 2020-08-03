@@ -1,0 +1,31 @@
+.auth-form {
+    width: 45%;
+    padding: 3%;
+    
+    .Mui-avatar {
+        margin: 16px;
+    }
+
+    h1 {
+        margin: 24px;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    button {
+        border-radius: 5%;
+    }
+
+    &__input {
+        margin-bottom: 40px!important;
+    }
+
+    .submit-button {
+        margin: 32px 0px 24px 0px;
+    }
+}
