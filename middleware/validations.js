@@ -1,11 +1,13 @@
 const { check } = require('express-validator');
 
-
-const loginValidation = [
+const emailValidation = [
     check('email', 'Email is missing')
         .exists()
         .isEmail()
-        .withMessage('Please, provide correct email!'),
+        .withMessage('Please, provide correct email!')
+];
+
+const passwordValidation = [
     check('password', 'Password is required')
         .exists()
         .isLength({ min: 7 })
@@ -13,6 +15,11 @@ const loginValidation = [
         .withMessage(
             'The password must be 7+ chars long and contain at least one number'
         )
+];
+
+const loginValidation = [
+    ...emailValidation,
+    ...passwordValidation
 ];
 
 const registrationValidation = [
@@ -27,6 +34,8 @@ const registrationValidation = [
 
 
 module.exports = {
+    emailValidation,
+    passwordValidation,
     registrationValidation,
     loginValidation
 };

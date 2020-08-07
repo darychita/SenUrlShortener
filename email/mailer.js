@@ -17,9 +17,9 @@ const defaultEmail = {
     text: 'text'
 };
 
-const sendMail = (mail) => {
+const sendMail = async (mail) => {
     mail = Object.assign({}, defaultEmail, mail);
-    tranporter.sendMail(mail);
+    const responce = await tranporter.sendMail(mail);
 };
 
 module.exports = sendMail;

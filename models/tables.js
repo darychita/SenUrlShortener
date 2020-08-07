@@ -13,6 +13,7 @@ module.exports = {
         id: 'id',
         userId: 'userId',
         expiresAt: 'expiresAt',
-        code: 'code'
+        code: 'code',
+        type: 'codeType'
     }
 };

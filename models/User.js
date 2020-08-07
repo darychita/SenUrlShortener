@@ -4,7 +4,7 @@ const {
     findByActivationCode,
     deleteActivationCode
 } = require('./queries/activationCodes');
-// const { randomToken } = require('../utils');
+const activationCodeTypes = require('./activationCodeTypes');
 
 class User {
     constructor({ username, email, password, id = -1, isActive = false } = {}) {
@@ -32,7 +32,7 @@ class User {
             isActive: true
         });
         this.isActive = true;
-        await deleteActivationCode(this.id);
+        await this.deleteCodes();
         return this;
     }
 
@@ -44,11 +44,30 @@ class User {
         if (this.isActive) {
             throw new Error('This user is already registered!');
         }
-
-        await createActivationCode(this.id, code);
+        const expires = 24 * 3600 * 1000; // one day
+        await createActivationCode(this.id, code, activationCodeTypes.emailActivation, expires);
         return this;
     }
 
+    async setPasswordResetToken(code) {
+        const expires = 3600 * 1000; // one hour
+        await createActivationCode(this.id, code, activationCodeTypes.passwordActivation, expires);
+        return this;
+    }
+
+    async updatePassword(passwordHash) {
+        await updateUser(this.id, {
+            password: passwordHash
+        });
+        this.password = passwordHash;
+        return this;
+    }
+    
+    async deleteCodes() {
+        await deleteActivationCode(this.id);
+        return this;
+    }
+ 
     static async findUser(where) {
         const rawUser = await getUser(where);
         if (rawUser.error) {
@@ -61,14 +80,23 @@ class User {
         return User.findUser({ email });
     }
 
-    static async findUserByActivationCode(code) {
-        const raw = await findByActivationCode(code);
+    static async findUserByCode(code, type) {
+        const raw = await findByActivationCode(code, type);
         if (!raw || raw.error) {
             return null;
         }
 
-        return [new User(raw), raw.expiresAt];
+        return [new User({...raw, id: raw.userId }), raw.expiresAt];
     }
+
+    static async findUserByActivationCode(code) {
+        return User.findUserByCode(code, activationCodeTypes.emailActivation);
+    }
+
+    static async findUserByResetPassword(code) {
+        return User.findUserByCode(code, activationCodeTypes.passwordActivation);
+    }
+
 }
 
 module.exports = User;

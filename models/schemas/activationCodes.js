@@ -6,6 +6,10 @@ async function createActivationCodesTable() {
     if (!tableExists) {
         return db.schema.createTable(activationCodes.tableName, (table) => {
             table.increments(activationCodes.id).primary();
+            // Supports only 1 or 2
+            table
+                .integer(activationCodes.type)
+                .notNullable();
             table
                 .integer(activationCodes.userId)
                 .notNullable()
