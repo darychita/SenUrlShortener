@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
 const {
-    userRouter
+    rootRouter
 } = require('./routes');
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(helmet());
 app.use(cookieParser());
 
 // routers
-app.use('/', userRouter);
+app.use('/', rootRouter);
 
 const port = process.env.PORT || 3000;
 

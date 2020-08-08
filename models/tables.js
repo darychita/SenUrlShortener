@@ -15,5 +15,10 @@ module.exports = {
         expiresAt: 'expiresAt',
         code: 'code',
         type: 'codeType'
+    },
+    refreshTokens: {
+        tableName: 'refreshTokens',
+        id: 'id',
+        token: 'token'
     }
 };

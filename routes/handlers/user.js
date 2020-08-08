@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 15);
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         user.password = hashedPassword;
         await user.save();
 

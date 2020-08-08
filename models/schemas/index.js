@@ -1,5 +1,6 @@
 const userSchema = require('./user');
 const activationCodesSchema = require('./activationCodes');
+const refreshTokensSchema = require('./refreshTokens');
 // const path = require('path');
 // const fs = require('fs').promises;
 
@@ -18,6 +19,7 @@ const activationCodesSchema = require('./activationCodes');
 async function initSchemas() {
     await userSchema();
     await activationCodesSchema();
+    await refreshTokensSchema();
 }
 
 module.exports = initSchemas;
