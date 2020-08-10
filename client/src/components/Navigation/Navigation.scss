@@ -3,4 +3,8 @@ nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    h6 {
+        cursor: pointer;
+    }
 }

@@ -17,7 +17,7 @@ const login = async (req, res) => {
         const match = await bcrypt.compare(password, candidate.password);
         console.timeEnd('bcrypt')
         if (!match) {
-            return res.status(401).send();
+            return res.status(401).json({ message: 'Enter correct password' });
         }
     } catch(e) {
         return res.status(500).send();

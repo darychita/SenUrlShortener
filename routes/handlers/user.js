@@ -86,8 +86,9 @@ const confirmResetPassword = async (req, res) => {
     }
 
     const { password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 15);
+    const hashedPassword = await bcrypt.hash(password, 10);
     await candidate.updatePassword(hashedPassword);
+    
     candidate.deleteCodes();
     return res.status(200).json({ message: 'Your password is updated. '});
 };

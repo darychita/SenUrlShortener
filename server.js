@@ -7,7 +7,6 @@ const {
 } = require('./routes');
 
 const app = express();
-
 app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());

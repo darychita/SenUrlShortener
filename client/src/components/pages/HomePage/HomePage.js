@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Box, Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import Features from './Features';
 import Footer from '../../Footer';
 import Divider from './Divider';
@@ -32,7 +33,11 @@ const HomePage = () => {
                     Key Features
                 </Typography>
                 <Features />
-                <Button variant="contained" color="secondary" size="large">Get started</Button>
+                <Link to="/login">
+                    <Button variant="contained" color="secondary" size="large">
+                        Get started
+                    </Button>
+                </Link>
             </section>
             <Footer />
         </Box>

@@ -7,7 +7,9 @@ import './AuthPage.scss';
 const AuthPage = ({ mainColor, 
                     title,
                     textFieldsLabels, 
-                    links
+                    links,
+                    validationSchema,
+                    onSubmit
                 }) => {
 
     const submitButton = (
@@ -15,6 +17,7 @@ const AuthPage = ({ mainColor,
             variant="contained" 
             color={mainColor} 
             size="large"
+            onClick={(data) => onSubmit(data)}
         >
             {title}
         </Button>);
@@ -27,10 +30,17 @@ const AuthPage = ({ mainColor,
                     title={title} 
                     submitButton={submitButton}
                     links={links}
+                    validationSchema={validationSchema}
                 >
                     {
-                        textFieldsLabels.map((label) => (
-                            <TextField label={label} variant="outlined" key={label} />
+                        textFieldsLabels.map(({label, name, type}) => (
+                            <TextField 
+                                label={label} 
+                                name={name} 
+                                variant="outlined" 
+                                key={label} 
+                                type={type ?? name}
+                            />
                         ))
                     }
                 </AuthForm>
