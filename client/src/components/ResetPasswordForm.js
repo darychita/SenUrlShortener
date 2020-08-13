@@ -20,7 +20,7 @@ const ResetPasswordForm = ({ label, submit, type }) => {
     const formHandler = () => {
         return submit(value)
                 .then(() => !!errorMessage ? setErrorMessage('') : null)
-                .catch((e) => setErrorMessage(e.message));
+                .catch((error) => setErrorMessage(error.message));
     };
 
     return (
@@ -30,7 +30,7 @@ const ResetPasswordForm = ({ label, submit, type }) => {
                     type={type ?? 'text'}
                     error={!!errorMessage}
                     label={label} 
-                    variant="outlined" size="normal" 
+                    variant="outlined"
                     className={styles.margin}
                     value={value ?? ''}
                     onChange={(e) => setValue(e.target.value)}

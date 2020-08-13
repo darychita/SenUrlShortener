@@ -1,6 +1,6 @@
 import React from 'react';
-import useAccount from '../../hooks/account.hook';
-import { emailSchema } from '../../validation';
+import useAccount from '../../../hooks/account.hook';
+import { emailSchema } from '../../../validation';
 import ResetPasswordPage from './ResetPasswordPage';
 
 const ResetPasswordRequestPage = () => {

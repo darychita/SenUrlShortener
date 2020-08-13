@@ -1,4 +1,4 @@
-const { createUser, getUser, updateUser } = require('./queries/user');
+const { createUser, getUser, updateUser, deleteUser } = require('./queries/user');
 const {
     createActivationCode,
     findByActivationCode,
@@ -45,13 +45,26 @@ class User {
             throw new Error('This user is already registered!');
         }
         const expires = 24 * 3600 * 1000; // one day
-        await createActivationCode(this.id, code, activationCodeTypes.emailActivation, expires);
+        await createActivationCode(
+            this.id, code, activationCodeTypes.emailActivation, expires
+        );
         return this;
     }
 
+    async delete() {
+        await deleteUser(this.id);
+        return null;
+    }
+
     async setPasswordResetToken(code) {
-        const expires = 3600 * 1000; // one hour
-        await createActivationCode(this.id, code, activationCodeTypes.passwordActivation, expires);
+        const expires = 30 * 1000;
+        // const expires = 3600 * 1000; // one hour
+        const result = await createActivationCode(
+            this.id, code, activationCodeTypes.passwordActivation, expires
+        );
+        if (result.error) {
+            throw new Error('Reset password request is already created!');
+        }
         return this;
     }
 
@@ -62,7 +75,7 @@ class User {
         this.password = passwordHash;
         return this;
     }
-    
+
     async deleteCodes() {
         await deleteActivationCode(this.id);
         return this;
@@ -94,7 +107,9 @@ class User {
     }
 
     static async findUserByResetPassword(code) {
-        return User.findUserByCode(code, activationCodeTypes.passwordActivation);
+        return User.findUserByCode(
+            code, activationCodeTypes.passwordActivation
+        );
     }
 
 }

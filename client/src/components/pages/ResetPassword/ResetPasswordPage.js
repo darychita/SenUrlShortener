@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import InfoPage from './InfoPage';
-import ResetPasswordForm from '../ResetPasswordForm';
+import InfoPage from '../InfoPage';
+import ResetPasswordForm from '../../ResetPasswordForm';
 import { Typography } from '@material-ui/core';
 
 const ResetPasswordPage = ({ 
@@ -16,11 +16,12 @@ const ResetPasswordPage = ({
         } catch(e) {
             throw new Error(e.message);
         }
-        const resp = await getData(value);
-        if(resp.error) {
-            throw new Error(resp.error.message);
+        try {
+            const resp = await getData(value);
+            setSubmitted(resp);
+        } catch(e) {
+            throw new Error(e.message);
         }
-        setSubmitted(resp.message);
     }; 
 
     const renderForm = () => <ResetPasswordForm 

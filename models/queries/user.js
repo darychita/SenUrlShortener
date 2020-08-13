@@ -54,8 +54,23 @@ async function getUser(whereClause) {
     }
 }
 
+async function deleteUser(id) {
+    try {
+        return await db(users.tableName)
+                        .delete()
+                        .where({ id });
+    } catch (e) {
+        console.log(e);
+        return {
+            error: true,
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
     createUser,
     updateUser,
-    getUser
+    getUser,
+    deleteUser
 };

@@ -6,7 +6,7 @@ export async function register(username, email, password) {
         const body = { username, email, password };
         const resp = await postFetch('/register', body);
         if (resp.status == 201) {
-            return 'Activation email sent to your email. Please, check input';
+            return { message: 'Activation email sent to your email. Please, check input'};
         }
         const respBody = await resp.json();
         return {
@@ -44,6 +44,19 @@ export async function resetPasswordRequest(email) {
     }
 }
 
+export async function resetTokenExists(token) {
+    try {
+        const response = await fetch(`/reset/${token}`);
+        if(!response.ok) {
+            return {
+                error: true,
+                ...(await response.json()) 
+            }
+        }
+        return {};
+    } catch(e) {}
+}
+
 export async function resetPasswordConfirm(token, password) {
     try {
         const response = await postFetch(`/reset/${token}`, { password });
@@ -58,3 +71,4 @@ export async function resetPasswordConfirm(token, password) {
 
     } catch(e) {}
 }
+

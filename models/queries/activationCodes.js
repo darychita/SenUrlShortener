@@ -13,7 +13,6 @@ async function createActivationCode(userId, code, codeType, expires) {
                         [activationCodes.type]: codeType
                     });
     } catch (e) {
-        console.log(e);
         return { error: e };
     }
 }
@@ -23,7 +22,7 @@ async function findByActivationCode(code, codeType) {
         const query = db(activationCodes.tableName)
                         .select('*')
                         .innerJoin(
-                            users.tableName, // TODO: refactor inner join
+                            users.tableName, 
                             `${users.tableName}.${users.id}`,
                             '=',
                             `${activationCodes.tableName}.${activationCodes.userId}`
@@ -35,7 +34,6 @@ async function findByActivationCode(code, codeType) {
         const result = await query;
         return result[0] || null;
     } catch (e) {
-        console.log(e);
         return { error: e };
     }
 }

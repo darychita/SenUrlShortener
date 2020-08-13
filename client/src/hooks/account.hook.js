@@ -1,35 +1,42 @@
 import * as accountService from '../service/account.service';
 
 const useAccount = () => {
-  
-    const register = async ({ username, email, password}) => {
-        const result = await accountService.register(username, email, password);
-        if (result.error) {
+    
+    const handler = (func) => async (...args) => {
+        const result = await func(...args);
+        if(result.error) {
             throw new Error(result.message);
         }
-        return result;
+        return result.message ?? '';
+    };
+  
+    const register = ({ username, email, password}) => {
+        return handler(accountService.register)(username, email, password);
     };
 
-    // TODO: test token expiration mistake
     const confirmRegistartion = (token) => {
-        return accountService
-                .confirmRegistration(token)
-                .then(({ message }) => message);
+        return handler(accountService.confirmRegistration)(token);
     };
 
     const resetPassword = (email) => {
-        return accountService.resetPasswordRequest(email);
+        return handler(accountService.resetPasswordRequest)(email);
     };
 
-    const confirmResetPassword = async (token, password) => {
-        const result = await accountService.resetPasswordConfirm(token, password);
-        if (result.error) {
-            throw new Error(result.message);
-        }
-        return result;
+    const resetPasswordExists = (token) => {
+        return handler(accountService.resetTokenExists)(token);
     };
 
-    return { register, confirmRegistartion, resetPassword, confirmResetPassword };
+    const confirmResetPassword = (token, password) => {
+        return handler(accountService.resetPasswordConfirm)(token, password);
+    };
+
+
+    return { register, 
+            confirmRegistartion,
+            resetPassword,
+            confirmResetPassword,
+            resetPasswordExists
+        };
 };
 
 export default useAccount;

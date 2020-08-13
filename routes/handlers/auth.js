@@ -11,22 +11,25 @@ const login = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
     }
 
-    // 2. Compare password 
+    if (!candidate.isActive) {
+        return res.status(401).json({
+            message: 'Your account is not activated'
+        });
+    }
+    // 2. Compare password
     try {
-        console.time('bcrypt')
         const match = await bcrypt.compare(password, candidate.password);
-        console.timeEnd('bcrypt')
         if (!match) {
             return res.status(401).json({ message: 'Enter correct password' });
         }
-    } catch(e) {
+    } catch (e) {
         return res.status(500).send();
     }
 
     // 3. Create access and refresh token
     const accessToken = generateToken(candidate.id);
     const refreshToken = jwt.sign({ userId: candidate.id }, process.env.REFRESH_TOKEN_SECRET);
-    const expiresIn = 20; // here will be 3 hours
+    const expiresIn = 3 * 60 * 60; // here will be 3 hours
 
     // 4. Save refresh token
     new RefreshToken(refreshToken).save();
@@ -35,7 +38,7 @@ const login = async (req, res) => {
     return res.json({ accessToken, refreshToken, expiresIn});
 };
 
-const updateAccessToken =  async (req, res) => {
+const updateAccessToken = async (req, res) => {
     // 1. Get refresh token
     const token = new RefreshToken(req.body.token);
 
@@ -59,9 +62,9 @@ const updateAccessToken =  async (req, res) => {
 };
 
 const logout = (req, res) => {
-    // Destroy refresh token if present 
+    // Destroy refresh token if present
     const { token } = req.body;
-    if(!token) {
+    if (!token) {
         return res.status(400).json({ message: 'Provide refresh token' });
     }
 
@@ -70,7 +73,7 @@ const logout = (req, res) => {
 };
 
 function generateToken(userId) {
-    return jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20s' });
+    return jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
 }
 
 module.exports = {

@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useAccount from '../../../hooks/account.hook';
 import { passwordSchema } from '../../../validation';
 import ResetPasswordPage from './ResetPasswordPage';
+import InfoPage from '../InfoPage';
 
 const ResetPasswordConfirmPage = ({ match: { params: { token } }}) => {
+    const [ tokenExists, setTokenExists ] = useState(true);
+    const [ errorMessage, setErrorMessage ] = useState(null);
+
     const account = useAccount();
+
+    useEffect(() => {
+        account
+            .resetPasswordExists(token)
+            .catch((e) => { 
+                    setTokenExists(false); 
+                    setErrorMessage(e.message)
+                });
+    }, [ ]);
+
+    if(!tokenExists) {
+        return <InfoPage 
+                    message={errorMessage}
+                />
+    }
 
     return <ResetPasswordPage 
                 type="password"
