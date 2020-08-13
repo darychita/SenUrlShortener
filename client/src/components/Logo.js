@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Typography, makeStyles } from '@material-ui/core';
 
 const useStyle = makeStyles({
@@ -13,13 +14,15 @@ const Logo = () => {
     const classes = useStyle();
 
     return (
-        <Typography 
-            variant="h1" 
-            component="div"
-            className={classes.root}
-        >
-            Sen
-        </Typography>
+        <Link to="/">
+            <Typography 
+                variant="h1" 
+                component="div"
+                className={classes.root}
+            >
+                Sen
+            </Typography>
+        </Link>
     );
 };
 

@@ -1,16 +1,38 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PublicRoute from '../wrappers/PublicRoute';
+import useAuth from '../../hooks/auth.hook';
+import AuthContext from '../../context/auth.context';
 import AppHeader from '../AppHeader';
-import { HomePage, RegistrationPage, LoginPage, PersonalPage } from '../pages';
+import { HomePage, 
+        RegistrationPage, 
+        LoginPage, 
+        PersonalPage, 
+        EmailConfirmPage, 
+        ResetPasswordRequestPage, 
+        ResetPasswordConfirmPage 
+} from '../pages';
 import './App.scss';
 
 const App = () => {
+
+    const { isAuthenticated, login, logout } = useAuth();
+
     return (
-        <>
-            <AppHeader />
-            {/* <LoginPage /> */}
-            <HomePage />
-            {/* <PersonalPage /> */}
-        </>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+            <Router>
+                <AppHeader />
+                <Route path="/" 
+                    exact 
+                    component={isAuthenticated ? PersonalPage : HomePage} 
+                />
+                <PublicRoute path="/login" component={LoginPage} />
+                <PublicRoute path="/register" component={RegistrationPage} />
+                <PublicRoute path="/register/confirm/:token" component={EmailConfirmPage} />
+                <PublicRoute path="/password/reset" component={ResetPasswordRequestPage} />
+                <PublicRoute path="/reset/:token" component={ResetPasswordConfirmPage} />
+            </Router>
+        </AuthContext.Provider>
     );
 };
 

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../../context/auth.context';
 import { Paper, InputBase, Box, Chip, Typography, Grid } from '@material-ui/core';
 import './Shortener.scss';
 
-const Shortener = ({ isAuthorized = true }) => {
+const Shortener = () => {
+    const auth = useContext(AuthContext);
+    console.log(auth)
+
     const advancedSettings = (
         <Grid container spacing={4}>
             <Grid item xs={6} className="shortener__small-input__container">
@@ -32,7 +36,7 @@ const Shortener = ({ isAuthorized = true }) => {
                 <Paper className="shortener__paper" elevation={1}>
                     <InputBase fullWidth placeholder="Paste your long URL.."  />
                 </Paper>
-                { isAuthorized ? advancedSettings : null }
+                { auth.isAuthenticated ? advancedSettings : null }
             </form>
         </Box>
     );
