@@ -118,13 +118,11 @@ const AuthForm = ({ mainColor, // primary color for this form
 
             { 
                 links.map(({ text, href = '#'}, i) => (
-                    <RouterLink to={href}>
-                        <Typography align="center" key={`${href}${i}`}>
-                            <Link variant="body2">
-                                {text}
-                            </Link>
-                        </Typography>    
-                    </RouterLink>
+                    <Typography align="center" key={`${href}${i}`}>
+                        <Link component={RouterLink} variant="body2" to={href}>
+                            {text}
+                        </Link>
+                    </Typography>    
                 ))
             }
         </Box>

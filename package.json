@@ -4,7 +4,9 @@
   "description": "API for Sen Url Shortener",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "server": "node index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "link",

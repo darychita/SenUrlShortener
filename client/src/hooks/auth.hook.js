@@ -12,7 +12,7 @@ const useAuth = () => {
             setAuthenticated(false);
             throw new Error(resp.message);
         }    
-        await setAuthenticated(true);
+        setAuthenticated(true);
     };
 
     const logout = async () => {
