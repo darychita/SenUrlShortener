@@ -4,14 +4,26 @@
     // flex-direction: column;
     // justify-content: center;
 
-    &__paper {
-        padding: 15px 30px;  
-        position: relative;
+    &__input-error {
+        margin-top: 0.5em!important;
+        color: #f44336;
+    }
 
-        input {
+    &__paper {
+        padding: 0.5em 0.5em 0.5em 1.5em;  
+        display: flex;
+
+
+        .MuiInputBase-root {
             color: #262626;
-            font-size: 1.1em;    
+            flex: 1;
+
+            input {
+                font-size: 1.1em;    
+            }
         }
+    
+
     
     }
 
@@ -39,6 +51,7 @@
     &__chip__container {
         display: flex;
         justify-content: center;
+        text-decoration: none;
     }
 
     &__result {
@@ -48,6 +61,12 @@
         height: 40px!important;
         font-size: 1em!important;
         border-radius: 60px!important;
+        cursor: pointer!important;
+        box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+
+        &:hover {
+            background-color:#c51162;
+        }
     }
 
 }

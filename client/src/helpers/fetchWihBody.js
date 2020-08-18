@@ -1,8 +1,6 @@
-const { func } = require("prop-types");
-
-function postFetch(url, body) {
+function fetchWithBody(url, body, method = 'POST') {
     return fetch(url, {
-        method: 'POST',
+        method,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -10,4 +8,4 @@ function postFetch(url, body) {
     });
 }
 
-export default postFetch;
+export default fetchWithBody;

@@ -28,8 +28,9 @@ const login = async (req, res) => {
 
     // 3. Create access and refresh token
     const accessToken = generateToken(candidate.id);
-    const refreshToken = jwt.sign({ userId: candidate.id }, process.env.REFRESH_TOKEN_SECRET);
-    const expiresIn = 3 * 60 * 60; // here will be 3 hours
+    const refreshToken = jwt.sign({ userId: candidate.id },
+                    process.env.REFRESH_TOKEN_SECRET);
+    const expiresIn = Date.now() + (3 * 60 * 60 * 1000); // here will be 3 hours
 
     // 4. Save refresh token
     new RefreshToken(refreshToken).save();
@@ -57,7 +58,8 @@ const updateAccessToken = async (req, res) => {
         // 5. Generate new access token
         const accessToken = generateToken(user.userId);
         // 6. return everything (here we can return new refresh token)
-        return res.json({ accessToken });
+        const expiresIn = Date.now() + (3 * 60 * 60 * 1000);
+        return res.json({ accessToken, expiresIn });
     });
 };
 

@@ -20,5 +20,17 @@ module.exports = {
         tableName: 'refreshTokens',
         id: 'id',
         token: 'token'
+    },
+    links: {
+        tableName: 'links',
+        id: 'id',
+        ownerId: 'ownerId',
+        views: 'views',
+        origin: 'origin',
+        endpoint: 'endpoint',
+        createdAt: 'createdAt',
+        isProtected: 'isProtected',
+        password: 'password',
+        description: 'description'
     }
 };

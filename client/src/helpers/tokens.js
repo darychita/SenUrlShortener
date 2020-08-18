@@ -1,5 +1,3 @@
-import { func } from "prop-types";
-
 const TOKEN_KEY = 'sen-token';
 
 
@@ -13,4 +11,8 @@ export function deleteToken() {
 
 export function hasToken() {
     return localStorage.getItem(TOKEN_KEY) != null;
+}
+
+export function getTokenData() {
+    return JSON.parse(localStorage.getItem(TOKEN_KEY));
 }

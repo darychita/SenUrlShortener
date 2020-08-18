@@ -22,7 +22,7 @@ async function findByActivationCode(code, codeType) {
         const query = db(activationCodes.tableName)
                         .select('*')
                         .innerJoin(
-                            users.tableName, 
+                            users.tableName,
                             `${users.tableName}.${users.id}`,
                             '=',
                             `${activationCodes.tableName}.${activationCodes.userId}`

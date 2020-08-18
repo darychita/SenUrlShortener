@@ -1,32 +1,32 @@
 const db = require('../../config/dbConnect');
 const { refreshTokens } = require('../tables');
 
-const createRefreshToken = async (token) => {
+async function createRefreshToken(token) {
     try {
         return await db(refreshTokens.tableName)
                     .insert({ [refreshTokens.token]: token });
-    } catch(e) {
+    } catch (e) {
         return { error: e };
     }
-};
+}
 
-const isTokenExists = async (token) => {
+async function isTokenExists(token) {
     try {
         const entry = await db(refreshTokens.tableName)
                                 .select('*')
                                 .where({ [refreshTokens.token]: token });
         return !!entry.length;
-    } catch(e) {
+    } catch (e) {
         return { error: e };
     }
 };
 
-const deleteToken = async (token) => {
+async function deleteToken(token) {
     try {
         return await db(refreshTokens.tableName)
                         .delete()
                         .where({ [refreshTokens.token]: token });
-    } catch(e) {
+    } catch (e) {
         return { error: e };
     }
 };
