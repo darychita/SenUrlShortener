@@ -80,11 +80,12 @@ const LinksList = () =>  {
               </Table>
           </TableContainer>
           <TablePagination 
-              component="div"
-              rowsPerPageOptions={[5, 10, 25, 100]}
-              count={3}
-              rowsPerPage={5}
-              page={1}
+                onChangePage={() => {}}
+                component="div"
+                rowsPerPageOptions={[5, 10, 25, 100]}
+                count={3}
+                rowsPerPage={5}
+                page={0}
           />
       </Paper>
       

@@ -1,10 +1,10 @@
-import postFetch from '../helpers/postFetch';
+import fetchWithBody from '../helpers/fetchWihBody';
 
 
 export async function register(username, email, password) {
     try {
         const body = { username, email, password };
-        const resp = await postFetch('/register', body);
+        const resp = await fetchWithBody('/register', body);
         if (resp.status == 201) {
             return { message: 'Activation email sent to your email. Please, check input'};
         }
@@ -30,7 +30,7 @@ export async function confirmRegistration(token) {
 
 export async function resetPasswordRequest(email) {
     try {
-        const response = await postFetch('/reset', { email });
+        const response = await fetchWithBody('/reset', { email });
         const body = await response.json();
         if (!response.ok) {
             return {
@@ -59,7 +59,7 @@ export async function resetTokenExists(token) {
 
 export async function resetPasswordConfirm(token, password) {
     try {
-        const response = await postFetch(`/reset/${token}`, { password });
+        const response = await fetchWithBody(`/reset/${token}`, { password });
         const body = await response.json();
         if (!response.ok) {
             return {

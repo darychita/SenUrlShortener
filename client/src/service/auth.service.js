@@ -1,11 +1,11 @@
-import { saveToken, deleteToken } from '../helpers/tokens';
-import postFetch from '../helpers/postFetch';
+import { saveToken, deleteToken, getTokenData } from '../helpers/tokens';
+import fetchWithBody from '../helpers/fetchWihBody';
 // const baseURL = 'http://localhost:3000/';
 
 export async function login(email, password) {
     try {
         const rawBody = { email, password };
-        const resp = await postFetch(`/login`, rawBody);
+        const resp = await fetchWithBody('/login', rawBody);
         const body = await resp.json();
         if (resp.status !== 200) {
             return {
@@ -16,11 +16,32 @@ export async function login(email, password) {
         saveToken(body);
         return {};
     } catch(e) {
-        console.log(e);
         return { error: true };
     }   
 }
 
-export async function logout() {
-    deleteToken();
+export async function updateToken() {
+    try {
+        const { refreshToken } = getTokenData();
+        const resp = await fetchWithBody('/token/update', { token: refreshToken }, 'PATCH');
+        if (resp.status != 200) {
+            return Promise.reject();
+        }
+        const tokenData = await resp.json();
+        saveToken({ ...tokenData, refreshToken });
+        return Promise.resolve(tokenData);
+    } catch(e){}
+}
+
+export function logout() {
+    const { refreshToken } = getTokenData();
+    return fetchWithBody('/logout', { token: refreshToken }, 'DELETE')
+            .then(deleteToken);
+    // return fetch('/logout', {
+    //     method: 'DELETE',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ token: refreshToken })
+    // }).then(() => deleteToken());
 }

@@ -1,4 +1,4 @@
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 
 const emailValidation = [
     check('email', 'Email is missing')
@@ -32,10 +32,36 @@ const registrationValidation = [
         .withMessage('The username must contain only letters and digits.')
 ];
 
+const originValidation = [
+    body('origin')
+        .exists()
+        .isURL()
+        .withMessage('Provide valid url!')
+];
+
+const linkValidation = [
+    ...originValidation,
+    body('customEndpoint')
+        .isLength({ min: 2 })
+        .optional(),
+    body('description')
+        .isString()
+        .optional(),
+    body('password')
+        .isLength({ min: 4 })
+        .matches(/.*[0-9].*/)
+        .withMessage(
+        'The password must be 4+ chars long and contain at least one numberword'
+        )
+        .optional()
+];
+
 
 module.exports = {
     emailValidation,
     passwordValidation,
     registrationValidation,
-    loginValidation
+    loginValidation,
+    linkValidation,
+    originValidation
 };

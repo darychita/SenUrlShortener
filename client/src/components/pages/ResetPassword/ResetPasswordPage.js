@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InfoPage from '../InfoPage';
-import ResetPasswordForm from '../../ResetPasswordForm';
+import PasswordForm from '../../PasswordForm';
 import { Typography } from '@material-ui/core';
 
 const ResetPasswordPage = ({ 
@@ -24,7 +24,7 @@ const ResetPasswordPage = ({
         }
     }; 
 
-    const renderForm = () => <ResetPasswordForm 
+    const renderForm = () => <PasswordForm 
                             type={type}
                             label={inputLabel} 
                             submit={submit}
@@ -35,9 +35,7 @@ const ResetPasswordPage = ({
                             </Typography>
     return (
         <InfoPage 
-            // message=
             message={pageMessage}
-            // subMessage="Enter your email and we'll send you a password reset link."
             subMessage={pageSubmessage}
             render={submitted ? renderReady : renderForm}
         />

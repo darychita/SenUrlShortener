@@ -8,7 +8,7 @@ const {
     passwordValidation
 } = require('../middleware/validations');
 const validate = require('../middleware/validateMiddleware');
-// const authenticate = require('../middleware/auth');
+
 // eslint-disable-next-line
 const router = Router();
 

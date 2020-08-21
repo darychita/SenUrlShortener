@@ -4,14 +4,26 @@
     // flex-direction: column;
     // justify-content: center;
 
-    &__paper {
-        padding: 15px 30px;  
-        position: relative;
+    &__input-error {
+        margin-top: 0.5em!important;
+        color: #f44336;
+    }
 
-        input {
+    &__paper {
+        padding: 0.5em 0.5em 0.5em 1.5em;  
+        display: flex;
+
+
+        .MuiInputBase-root {
             color: #262626;
-            font-size: 1.1em;    
+            flex: 1;
+
+            input {
+                font-size: 1.1em;    
+            }
         }
+    
+
     
     }
 
@@ -39,15 +51,13 @@
     &__chip__container {
         display: flex;
         justify-content: center;
-    }
+        text-decoration: none;
+        padding-top: 40px;
 
-    &__result {
-        // margin: 0 auto;
-        margin-top: 40px;
-        font-weight: 500!important;
-        height: 40px!important;
-        font-size: 1em!important;
-        border-radius: 60px!important;
+        .MuiChip-label {
+            font-size: 0.88rem;
+            padding: 7px 16px;
+        }
     }
 
 }
