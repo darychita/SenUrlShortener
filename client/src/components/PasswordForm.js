@@ -12,15 +12,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ResetPasswordForm = ({ label, submit, type }) => {
+const PasswordForm = ({ label, submit, type }) => {
     const styles = useStyles();
     const [ value, setValue ] = useState(null);
     const [ errorMessage, setErrorMessage ] = useState(null);
 
     const formHandler = () => {
+        console.log(value);
         return submit(value)
                 .then(() => !!errorMessage ? setErrorMessage('') : null)
-                .catch((error) => setErrorMessage(error.message));
+                .catch((e) => {
+                    const error = typeof e === 'string' ? e : e.message;
+                    setErrorMessage(error)
+                });
     };
 
     return (
@@ -49,4 +53,4 @@ const ResetPasswordForm = ({ label, submit, type }) => {
     );
 };
 
-export default ResetPasswordForm;
+export default PasswordForm;

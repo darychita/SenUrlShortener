@@ -1,7 +1,7 @@
 import { useReducer, useState } from 'react';
 import linkValidation from '../validation/link';
 import { createLink } from '../service/link.service';
-import normalizeLink from '../helpers/normalizeObject';
+import normalizeLink from '../helpers/normalizeLink';
 
 const useLink = (isAuthenticated) => {
     // const reducer = (state, action) => ({...state, ...action});

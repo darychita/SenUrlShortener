@@ -10,7 +10,9 @@ import { HomePage,
         PersonalPage, 
         EmailConfirmPage, 
         ResetPasswordRequestPage, 
-        ResetPasswordConfirmPage 
+        ResetPasswordConfirmPage, 
+        Page404,
+        ProtectedLinkPage
 } from '../pages';
 import './App.scss';
 
@@ -26,11 +28,13 @@ const App = () => {
                     exact 
                     component={isAuthenticated ? PersonalPage : HomePage} 
                 />
+                <Route path="/protected/:endpoint" component={ProtectedLinkPage} />
                 <PublicRoute path="/login" component={LoginPage} />
                 <PublicRoute path="/register" component={RegistrationPage} />
                 <PublicRoute path="/register/confirm/:token" component={EmailConfirmPage} />
                 <PublicRoute path="/password/reset" component={ResetPasswordRequestPage} />
                 <PublicRoute path="/reset/:token" component={ResetPasswordConfirmPage} />
+                <Route path="/404" component={Page404} />
             </Router>
         </AuthContext.Provider>
     );
