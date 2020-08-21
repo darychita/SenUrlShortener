@@ -17,8 +17,9 @@ const PasswordForm = ({ label, submit, type }) => {
     const [ value, setValue ] = useState(null);
     const [ errorMessage, setErrorMessage ] = useState(null);
 
-    const formHandler = () => {
-        console.log(value);
+    const formHandler = (e) => {
+        console.log(e);
+        e.preventDefault();
         return submit(value)
                 .then(() => !!errorMessage ? setErrorMessage('') : null)
                 .catch((e) => {
@@ -29,7 +30,7 @@ const PasswordForm = ({ label, submit, type }) => {
 
     return (
         <Box>
-            <form className={styles.form}>
+            <form className={styles.form}  onSubmit={formHandler} >
                 <TextField 
                     type={type ?? 'text'}
                     error={!!errorMessage}
@@ -41,9 +42,10 @@ const PasswordForm = ({ label, submit, type }) => {
                     helperText={errorMessage ?? ''}
                 />
                 <Button 
+                    type="submit"
                     variant="contained" 
                     color="primary" 
-                    size="large" onClick={formHandler}
+                    size="large"
                     style={{height: '56px'}}
                 >
                     Submit

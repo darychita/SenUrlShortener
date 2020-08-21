@@ -5,6 +5,7 @@ export async function register(username, email, password) {
     try {
         const body = { username, email, password };
         const resp = await fetchWithBody('/register', body);
+        console.log(resp.status);
         if (resp.status == 201) {
             return { message: 'Activation email sent to your email. Please, check input'};
         }
@@ -14,7 +15,7 @@ export async function register(username, email, password) {
             ...respBody
         }
     } catch(e) {
-        console.log(e);
+        console.log(e.message);
     }
 }
 

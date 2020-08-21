@@ -4,8 +4,7 @@ function fetchWithBody(url, body, method = 'POST') {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body),
-        redirect: 'manual'
+        body: JSON.stringify(body)
     });
 }
 

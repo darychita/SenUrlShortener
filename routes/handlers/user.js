@@ -7,7 +7,6 @@ const {
 } = require('../../email/mailer.templates');
 const { randomToken } = require('../../utils');
 const sendMail = require('../../email/mailer');
-const { json } = require('express');
 
 const createUser = async (req, res) => {
     const user = new User(req.body);
@@ -28,7 +27,7 @@ const createUser = async (req, res) => {
             confirmEmailTemplate(user.email, code)
         );
 
-    } catch (e) {
+    }catch (e) {
         return res.status(500).json(
             { message: 'Oops, something went wrong. Please, try again.'}
         );

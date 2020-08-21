@@ -8,7 +8,7 @@ const authenticateToken = (req, res, next) => {
     }
     const [, token] = authHeader.split(' ');
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, userId) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, { userId }) => {
         if (err) return res.status(403).json({ message: 'Wrong credentials!'});
         req.userId = userId;
         next();

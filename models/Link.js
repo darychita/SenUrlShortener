@@ -33,7 +33,7 @@ class Link {
             if (saved.error.includes('duplicate')) {
                 throw new Error('Duplicate');
             }
-            return null;
+            throw new Error(saved.error);
         }
 
         this.id = saved[0].id;

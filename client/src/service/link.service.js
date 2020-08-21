@@ -9,9 +9,16 @@ export async function createLink(body, isAuthenticated) {
     let resp;
     try {
         resp = await fetchWithAuth(url, 'POST', body); 
-        return resp.json();
+        console.log(resp);
+        const respBody = await resp.json();
+        if (resp.ok) {
+            return Promise.resolve(respBody);
+        }
+
+        return Promise.reject(respBody);
     } catch(e) {
-        return resp.json();
+        console.log(e);
+        return Promise.reject(e);
     }
 }
 
@@ -23,8 +30,10 @@ export async function getLink(endpoint, password) {
         if (resp.ok) {
             return Promise.resolve(body.origin);
         }
+        console.log('ohdw')
         return Promise.reject(body.message);
     } catch(e) {
+        console.log(e);
         return Promise.reject('Oops, something went wrong...');
     }
 } 

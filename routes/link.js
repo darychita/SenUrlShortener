@@ -12,8 +12,6 @@ const router = new Router();
 router.post('/extended', authenticate,
                 validate(linkValidation), handler.shortLink);
 router.post('/', validate(originValidation), handler.shortLink);
-router.get('/:endpoint', handler.findLink);
-router.post('/:endpoint', handler.findLink);
 
 
 module.exports = router;

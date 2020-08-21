@@ -35,17 +35,19 @@ const shortLink = async (req, res) => {
 
 
 const findLink = async (req, res) => {
+    const host = process.env.NODE_ENV === 'development'
+                ? process.env.CLIENT_HOST
+                : process.env.HOST;
     const { endpoint } = req.params;
     const candidate = await Link.findLinkByEndpoint(endpoint);
     if (!candidate) {
-        return res.status(404).send();
+        return res.redirect(`${host}/404`);
+        // return res.status(404).send();
     }
 
     if (candidate.isProtected) {
         if (req.method === 'GET') {
-            return res.status(401).json({
-                message: 'Password is missing'
-            });
+            return res.redirect(`${host}/protected/${endpoint}`);
         }
 
         const { password } = req.body;
@@ -56,8 +58,12 @@ const findLink = async (req, res) => {
             });
         }
     }
-    candidate.incremenetViews();
-    return res.redirect(candidate.origin);
+    await candidate.incremenetViews();
+    if (req.method === 'GET') {
+        return res.redirect(candidate.origin);
+    } else {
+        return res.json({ origin: candidate.origin });
+    }
 
 };
 module.exports = {

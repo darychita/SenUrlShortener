@@ -61,16 +61,13 @@ const useLink = (isAuthenticated) => {
         setLoading(true);
         try {
             const normalized = normalizeLink(link);
-            console.log(normalized);
             await linkValidation.validate(normalized, { abortEarly: false });
 
             const { endpoint } = await createLink(normalized, isAuthenticated);
 
             setLoading(false);
             setFinalEnpoint(endpoint);
-            // return endpoint;
         }  catch(e) {
-            console.log(e);
             setLoading(false);
             if (e.name === 'ValidationError') {
                 const errors = e.inner.reduce((acc, { path, message }) => {
@@ -82,7 +79,9 @@ const useLink = (isAuthenticated) => {
                 Object.entries(errors)
                     .forEach(([ prop, error ]) => setError(prop, error));
             }
-
+            if (e.message) {
+                setError('origin', e.message);
+            }
         } 
     };  
 

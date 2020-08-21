@@ -50,8 +50,10 @@ async function incrementViews(linkId) {
     try {
         return await db(links.tableName)
                         .where({ id: linkId })
-                        .update({ [links.views]: `${links.views} + 1`});
+                        .increment(links.views);
+                        // .update({ [links.views]: `"${links.views}"` + 1});
     } catch (e) {
+        console.log(e);
         return { error: e.message };
     }
 }

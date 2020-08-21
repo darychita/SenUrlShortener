@@ -8,6 +8,7 @@ const {
     passwordValidation
 } = require('../middleware/validations');
 const validate = require('../middleware/validateMiddleware');
+const { findLink } = require('./handlers/link');
 
 // eslint-disable-next-line
 const router = Router();
@@ -23,6 +24,10 @@ router.post('/reset/:token', validate(passwordValidation),
 router.post('/login', validate(loginValidation), authHandlers.login);
 router.patch('/token/update',authHandlers.updateAccessToken);
 router.delete('/logout', authHandlers.logout);
+
+
+router.get('/:endpoint', findLink);
+router.post('/:endpoint', findLink);
 
 // router.post('/test', (req, res) => res.send('Test post'));
 // router.get('/test', authenticate, (req, res) => res.send('This is secure route'));

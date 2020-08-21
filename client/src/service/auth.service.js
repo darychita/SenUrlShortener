@@ -37,11 +37,4 @@ export function logout() {
     const { refreshToken } = getTokenData();
     return fetchWithBody('/logout', { token: refreshToken }, 'DELETE')
             .then(deleteToken);
-    // return fetch('/logout', {
-    //     method: 'DELETE',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ token: refreshToken })
-    // }).then(() => deleteToken());
 }
