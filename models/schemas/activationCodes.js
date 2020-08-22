@@ -15,7 +15,9 @@ async function createActivationCodesTable() {
                 .notNullable()
                 .unique()
                 .references(users.id)
-                .inTable(users.tableName);
+                .inTable(users.tableName)
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
 
             table
                 .timestamp(activationCodes.expiresAt)

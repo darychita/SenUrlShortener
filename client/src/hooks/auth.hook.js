@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import * as authService from '../service/auth.service';
-import { hasToken } from '../helpers/tokens';
+import { hasToken, removeTokens } from '../helpers/tokens';
 
 const useAuth = () => {
     const hasTokenInStorage = hasToken();
@@ -20,7 +20,12 @@ const useAuth = () => {
         setAuthenticated(false);
     };
 
-    return { isAuthenticated, login, logout };
+    const deleteTokens = () => {
+        removeTokens();
+        setAuthenticated(false);
+    }
+
+    return { isAuthenticated, login, logout, deleteTokens };
 };
 
 export default useAuth;

@@ -1,5 +1,6 @@
 import fetchWithBody from '../helpers/fetchWihBody';
-
+import fetchWithAuth from '../helpers/fetchWithAuth';
+import * as tokens from '../helpers/tokens';
 
 export async function register(username, email, password) {
     try {
@@ -72,4 +73,38 @@ export async function resetPasswordConfirm(token, password) {
 
     } catch(e) {}
 }
+
+
+export async function updatePassword(password) {
+    try {
+        const response = await fetchWithAuth('/user/password','PATCH', { password });
+        const body = await response.json();
+        if (response.ok) {
+            return body;
+        }
+        return {
+            error: true,
+            ...body
+        }
+    } catch(e) {}
+}
+
+
+export async function deleteUser() {
+    try {
+        const { refreshToken } = tokens.getTokenData();
+        const response = await fetchWithAuth('/user', 'DELETE', { refreshToken });
+        if (response.status === 204) {
+            return { message: 'Account deleted'};
+        }
+        const body = await response.json();
+        return {
+            error: true,
+            ...body
+        }
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 

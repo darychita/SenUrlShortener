@@ -30,13 +30,23 @@ const useAccount = () => {
         return handler(accountService.resetPasswordConfirm)(token, password);
     };
 
+    const updatePassword = (password) => {
+        return handler(accountService.updatePassword)(password);
+    };
 
-    return { register, 
-            confirmRegistartion,
-            resetPassword,
-            confirmResetPassword,
-            resetPasswordExists
-        };
+    const deleteUser = async () => {
+        return handler(accountService.deleteUser)();
+    };
+
+    return { 
+        register, 
+        confirmRegistartion,
+        resetPassword,
+        confirmResetPassword,
+        resetPasswordExists,
+        updatePassword,
+        deleteUser
+    };
 };
 
 export default useAccount;

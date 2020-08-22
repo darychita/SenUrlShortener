@@ -1,5 +1,6 @@
 const db = require('../../config/dbConnect');
 const { links, users } = require('../tables');
+const { table } = require('../../config/dbConnect');
 
 async function createLinksTable() {
     const tableExists = await db.schema.hasTable(links.tableName);
@@ -9,7 +10,9 @@ async function createLinksTable() {
             table
                 .integer(links.ownerId)
                 .references(users.id)
-                .inTable(users.tableName);
+                .inTable(users.tableName)
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
             table
                 .integer(links.views)
                 .defaultTo(0);
@@ -31,7 +34,19 @@ async function createLinksTable() {
             table.text(links.password);
             table.text(links.description);
         });
+    } else {
+        return db.schema.alterTable(links.tableName, (table) => {
+            table.dropForeign(links.ownerId);
+            table
+                .integer(links.ownerId)
+                .references(users.id)
+                .inTable(users.tableName)
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+                .alter();
+        });
     }
+
 }
 
 module.exports = createLinksTable;

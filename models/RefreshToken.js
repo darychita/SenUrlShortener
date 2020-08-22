@@ -1,10 +1,10 @@
-const { 
+const {
     createRefreshToken,
     isTokenExists,
     deleteToken
 } = require('./queries/refreshTokens');
 
-class RefreshToken {   
+class RefreshToken {
     constructor(token) {
         if (!token) {
             throw new Error('You must provide a token to store it');

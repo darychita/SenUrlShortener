@@ -1,0 +1,24 @@
+.settings-page {
+    margin-top: 150px;
+
+    &__section {
+        margin: 3em 0;
+
+        &-header {
+            padding-bottom: 0.6em;
+        }
+
+        &-subheader {
+            padding-bottom: 3em;
+        }
+
+        form {
+            display: inline-flex;
+            justify-content: space-between;
+
+            .MuiTextField-root {
+                margin-right: 8px;
+            }
+        }
+    }
+}

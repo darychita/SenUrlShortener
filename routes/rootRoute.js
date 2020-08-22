@@ -26,8 +26,8 @@ router.patch('/token/update',authHandlers.updateAccessToken);
 router.delete('/logout', authHandlers.logout);
 
 
-router.get('/:endpoint', findLink);
-router.post('/:endpoint', findLink);
+router.get('/t/:endpoint', findLink);
+router.post('/t/:endpoint', findLink);
 
 // router.post('/test', (req, res) => res.send('Test post'));
 // router.get('/test', authenticate, (req, res) => res.send('This is secure route'));

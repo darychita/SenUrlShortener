@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, makeStyles, Box } from '@material-ui/core';
+import Loader from './Loader';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -12,20 +13,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PasswordForm = ({ label, submit, type }) => {
+const PasswordForm = ({ label, submit, type, submitLabel }) => {
     const styles = useStyles();
     const [ value, setValue ] = useState(null);
     const [ errorMessage, setErrorMessage ] = useState(null);
+    const [ loading, setLoading ] = useState(false);
 
     const formHandler = (e) => {
         console.log(e);
         e.preventDefault();
+        setLoading(true);
         return submit(value)
                 .then(() => !!errorMessage ? setErrorMessage('') : null)
                 .catch((e) => {
                     const error = typeof e === 'string' ? e : e.message;
                     setErrorMessage(error)
-                });
+                })
+                .finally(() => setLoading(false));
     };
 
     return (
@@ -41,15 +45,20 @@ const PasswordForm = ({ label, submit, type }) => {
                     onChange={(e) => setValue(e.target.value)}
                     helperText={errorMessage ?? ''}
                 />
-                <Button 
-                    type="submit"
-                    variant="contained" 
-                    color="primary" 
-                    size="large"
-                    style={{height: '56px'}}
-                >
-                    Submit
-                </Button>
+                {
+                    loading ? <Loader />
+                    : (
+                        <Button 
+                            type="submit"
+                            variant="contained" 
+                            color="primary" 
+                            size="large"
+                            style={{height: '56px'}}
+                        >
+                            {submitLabel ?? 'Submit'}
+                        </Button>    
+                    )
+                }
             </form>
         </Box>
     );

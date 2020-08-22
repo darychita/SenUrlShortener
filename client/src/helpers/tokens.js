@@ -16,3 +16,7 @@ export function hasToken() {
 export function getTokenData() {
     return JSON.parse(localStorage.getItem(TOKEN_KEY));
 }
+
+export function removeTokens() {
+    localStorage.removeItem(TOKEN_KEY);
+}

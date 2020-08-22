@@ -7,6 +7,7 @@ const {
 } = require('../../email/mailer.templates');
 const { randomToken } = require('../../utils');
 const sendMail = require('../../email/mailer');
+const RefreshToken = require('../../models/RefreshToken');
 
 const createUser = async (req, res) => {
     const user = new User(req.body);
@@ -27,7 +28,7 @@ const createUser = async (req, res) => {
             confirmEmailTemplate(user.email, code)
         );
 
-    }catch (e) {
+    } catch (e) {
         return res.status(500).json(
             { message: 'Oops, something went wrong. Please, try again.'}
         );
@@ -87,6 +88,12 @@ const resetPassword = async (req, res) => {
     });
 };
 
+const updatePassword = async (req, candidate) => {
+    const { password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return await candidate.updatePassword(hashedPassword);
+};
+
 const confirmResetPassword = async (req, res) => {
     const { token } = req.params;
     const result = await User.findUserByResetPassword(token);
@@ -108,17 +115,42 @@ const confirmResetPassword = async (req, res) => {
     if (req.method === 'GET') {
         return res.status(200).send();
     }
-    const { password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await candidate.updatePassword(hashedPassword);
+
+    await updatePassword(req, candidate);
+    // const { password } = req.body;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // await candidate.updatePassword(hashedPassword);
 
     candidate.deleteCodes();
     return res.status(200).json({ message: 'Your password is updated. '});
+};
+
+const updatePasswordAuthenticated = async (req, res) => {
+    const candidate = await User.findUserById(req.userId);
+    await updatePassword(req, candidate);
+    return res.status(200).json({ message: 'Your password is updated. '});
+};
+
+const deleteUser = async (req, res) => {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+        return res.status(400).json({ message: 'Provide refresh token' });
+    }
+    const rt = new RefreshToken(refreshToken);
+    await rt.delete();
+    let candidate = await User.findUserById(req.userId);
+    candidate = await candidate.delete();
+    if (!candidate) {
+        return res.status(204).send();
+    }
+    return res.status(500).json({ message: 'Oops, something went wrong'});
 };
 
 module.exports = {
     createUser,
     confirmEmail,
     resetPassword,
-    confirmResetPassword
+    confirmResetPassword,
+    updatePasswordAuthenticated,
+    deleteUser
 };

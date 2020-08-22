@@ -93,6 +93,10 @@ class User {
         return User.findUser({ email });
     }
 
+    static async findUserById(id) {
+        return User.findUser({ id });
+    }
+
     static async findUserByCode(code, type) {
         const raw = await findByActivationCode(code, type);
         if (!raw || raw.error) {

@@ -18,7 +18,7 @@ const shortLink = async (req, res) => {
         await link.save();
 
         return res.status(201).json({
-            endpoint: `${process.env.HOST}/${link.endpoint}`
+            endpoint: `${process.env.HOST}/t/${link.endpoint}`
         });
 
     } catch ({ message }) {
@@ -35,6 +35,7 @@ const shortLink = async (req, res) => {
 
 
 const findLink = async (req, res) => {
+    console.log('hey');
     const host = process.env.NODE_ENV === 'development'
                 ? process.env.CLIENT_HOST
                 : process.env.HOST;
