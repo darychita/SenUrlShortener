@@ -8,6 +8,7 @@ const {
 const { randomToken } = require('../../utils');
 const sendMail = require('../../email/mailer');
 const RefreshToken = require('../../models/RefreshToken');
+const Link = require('../../models/Link');
 
 const createUser = async (req, res) => {
     const user = new User(req.body);
@@ -117,9 +118,6 @@ const confirmResetPassword = async (req, res) => {
     }
 
     await updatePassword(req, candidate);
-    // const { password } = req.body;
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // await candidate.updatePassword(hashedPassword);
 
     candidate.deleteCodes();
     return res.status(200).json({ message: 'Your password is updated. '});
@@ -146,11 +144,40 @@ const deleteUser = async (req, res) => {
     return res.status(500).json({ message: 'Oops, something went wrong'});
 };
 
+const getUserLinks = async (req, res) => {
+    const { userId } = req;
+    const { per_page, page } = req.query;
+    console.log(per_page, page);
+    try {
+        const links = await Link.getLinksByUserId(userId, +per_page, +page);
+        const amount = await Link.getAmountOfLinksInUser(userId);
+        if (!links) {
+            return res.status(404).json({
+                message: 'No links found.'
+            });
+        }
+        links.forEach((link) => {
+            delete link.id;
+            delete link.password;
+            link.endpoint = `${process.env.HOST}/t/${link.endpoint}`;
+        });
+        return res.json({
+            page: +page,
+            perPage: +per_page,
+            amount,
+            links
+        });
+    } catch (e) {
+        return res.status(500).json({ message: 'Oops, something went wrong'});
+    }
+};
+
 module.exports = {
     createUser,
     confirmEmail,
     resetPassword,
     confirmResetPassword,
     updatePasswordAuthenticated,
-    deleteUser
+    deleteUser,
+    getUserLinks
 };

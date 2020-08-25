@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -11,9 +10,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import LinkItem from '../LinkItem';
+import LinksContext from '../../context/links.context';
 
 import TableCell from '../TableCell';
 import { InputAdornment } from '@material-ui/core';
+import TableHeader from './TableHeader';
+import Loader from '../Loader';
 
 const useStyles = makeStyles({
   table: {
@@ -21,22 +23,65 @@ const useStyles = makeStyles({
   },
 });
 
-const TableHeader = () => {
+const TableBodySpinner = () => (
+    <TableRow>
+        <TableCell align="center" colSpan={5}>
+            <Loader />
+        </TableCell>
+    </TableRow>
+);
+
+const List = ({ links }) => {
     return (
-        <TableHead>
+        <>
             <TableRow>
-                <TableCell>Destination Link</TableCell>
-                <TableCell>Shorten Link</TableCell>
-                <TableCell align="right">Created Ago</TableCell>
-                <TableCell align="right">Amount of views</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell colSpan={5} align="right">
+                    <TextField 
+                        size="small"
+                        variant="outlined"
+                        placeholder="Search"
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">
+                                                <SearchIcon />
+                                            </InputAdornment>,
+                        }}
+                    />
+                </TableCell>
             </TableRow>
-        </TableHead>
+            {
+                links.map((link) => (
+                    <LinkItem key={link.uuid}
+                        destinationLink={link.origin}
+                        shortenLink={link.endpoint}
+                        createdAt={link.createdAt}
+                        viewsAmount={link.views}
+                    />
+                ))
+            }
+        </>
+
     );
-};  
+}
 
 const LinksList = () =>  {
     const classes = useStyles();
+    const { isLoading, 
+            links, 
+            rowsPerPage: [ rowsPerPage, setRowsPerPage],
+            page: [page, setPage ],
+            amount 
+    } = useContext(LinksContext);
+
+    const handleChangeRowsPerPage = (e) => {
+        console.log(+e.target.value);
+        setRowsPerPage(+e.target.value);
+        setPage(0);
+    };
+
+    const handleChangePage = (_, newPage) => {
+        console.log(newPage);
+        setPage(newPage)
+    };
 
     return (
       <Paper elevation={4}>
@@ -44,48 +89,23 @@ const LinksList = () =>  {
               <Table className={classes.table} aria-label="customized table">
                   <TableHeader />
                   <TableBody>
-                      <TableRow>
-                          <TableCell colSpan={5} align="right">
-                                <TextField 
-                                    size="small"
-                                    variant="outlined"
-                                    placeholder="Search"
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">
-                                                          <SearchIcon />
-                                                        </InputAdornment>,
-                                    }}
-                                />
-                          </TableCell>
-                      </TableRow>
-                      <LinkItem 
-                          destinationLink="https://material-ui.com/ru/api/table-cell/"
-                          shortenLink="https://material-ui.com"
-                          createdAt="18 aug, 2020"
-                          viewsAmount={1}
-                      />
-                      <LinkItem 
-                          destinationLink="https://material-ui.com/components/material-icons/#material-icons"
-                          shortenLink="https://material-ui.com"
-                          createdAt="18 aug, 2020"
-                          viewsAmount={1}
-                      />
-                      <LinkItem 
-                          destinationLink="https://material-ui.com/components/material-icons/#material-icons"
-                          shortenLink="https://material-ui.com"
-                          createdAt="18 aug, 2020"
-                          viewsAmount={1}
-                      />
+                  {
+                      isLoading 
+                      ? <TableBodySpinner />
+                      : <List links={links} />
+                  }
                   </TableBody>
               </Table>
           </TableContainer>
           <TablePagination 
                 onChangePage={() => {}}
                 component="div"
-                rowsPerPageOptions={[5, 10, 25, 100]}
-                count={3}
-                rowsPerPage={5}
-                page={0}
+                rowsPerPageOptions={[10, 25, 100]}
+                count={amount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
           />
       </Paper>
       

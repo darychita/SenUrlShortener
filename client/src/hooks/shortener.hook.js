@@ -3,8 +3,7 @@ import linkValidation from '../validation/link';
 import { createLink } from '../service/link.service';
 import normalizeLink from '../helpers/normalizeLink';
 
-const useLink = (isAuthenticated) => {
-    // const reducer = (state, action) => ({...state, ...action});
+const useShortener = (isAuthenticated) => {
     const reducer = (state, action) => {
         switch(action.type) {
             case 'value': {
@@ -97,4 +96,4 @@ const useLink = (isAuthenticated) => {
     };
 };
 
-export default useLink;
+export default useShortener;

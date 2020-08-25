@@ -7,6 +7,9 @@ const useAccount = () => {
         if(result.error) {
             throw new Error(result.message);
         }
+        if (Array.isArray(result)) {
+            return result;
+        }
         return result.message ?? '';
     };
   

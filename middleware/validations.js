@@ -56,6 +56,10 @@ const linkValidation = [
         .optional()
 ];
 
+const updateLinkValidaton = [
+    ...linkValidation,
+    originValidation[0].optional()
+];
 
 module.exports = {
     emailValidation,
@@ -63,5 +67,6 @@ module.exports = {
     registrationValidation,
     loginValidation,
     linkValidation,
-    originValidation
+    originValidation,
+    updateLinkValidaton
 };

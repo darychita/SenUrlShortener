@@ -12,7 +12,14 @@ function randomToken(size) {
     return randomBytes(size).toString('hex');
 }
 
+function validateIsEmpty(value, objName) {
+    if (isObjectEmpty(value)) {
+        throw new Error(`${objName} cannot be empty!`);
+    }
+}
+
 module.exports = {
     isObjectEmpty,
-    randomToken
+    randomToken,
+    validateIsEmpty
 };

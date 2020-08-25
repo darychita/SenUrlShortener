@@ -1,12 +1,15 @@
 const db = require('../../config/dbConnect');
 const { links, users } = require('../tables');
-const { table } = require('../../config/dbConnect');
 
 async function createLinksTable() {
     const tableExists = await db.schema.hasTable(links.tableName);
     if (!tableExists) {
         return db.schema.createTable(links.tableName, (table) => {
             table.increments(links.id).primary();
+            table
+                .uuid(links.uuid)
+                .notNullable()
+                .defaultTo(db.raw('gen_random_uuid()'));
             table
                 .integer(links.ownerId)
                 .references(users.id)

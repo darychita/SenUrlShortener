@@ -1,0 +1,17 @@
+.link {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 370px;
+
+    &.link-dest {
+        max-width: 250px;
+        margin-left: 10px;
+    }
+}
+
+.link-dest-cell {
+    display: flex;
+    align-items: center;
+}

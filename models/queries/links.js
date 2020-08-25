@@ -11,36 +11,41 @@ async function createLink(link) {
     }
 }
 
-async function getLinks(whereClause, limit) {
+async function getLinks(whereClause, limit, offset = 0) {
     try {
         let query = db(links.tableName)
                     .select('*')
                     .where(whereClause);
         if (limit) {
-            query = query.limit(limit);
+            query = query.limit(limit).offset(offset * limit);
         }
+        query = query.orderBy(links.createdAt, 'desc');
         const result = await query;
-        return result.length ? limit && limit === 1 ? result[0] : result : null;
+        return result.length
+                ? limit && limit === 1 ? result[0] : result
+                : null;
     } catch (e) {
         return { error: e.message };
     }
 }
 
-async function updateLinks(endpoint, updateSet) {
+async function updateLink(uuid, updateSet) {
     try {
-        return await db(links.tableName)
+        const result = await db(links.tableName)
                         .update(updateSet)
-                        .where({ endpoint });
+                        .where({ uuid })
+                        .returning('*');
+        return result.length ? result[0] : null;
     } catch (e) {
         return { error: e.message };
     }
 }
 
-async function deleteLink(endpoint) {
+async function deleteLink(uuid) {
     try {
         return await db(links.tableName)
                         .delete()
-                        .where({ endpoint });
+                        .where({ uuid });
     } catch (e) {
         return { error: e.message };
     }
@@ -51,16 +56,31 @@ async function incrementViews(linkId) {
         return await db(links.tableName)
                         .where({ id: linkId })
                         .increment(links.views);
-                        // .update({ [links.views]: `"${links.views}"` + 1});
     } catch (e) {
-        console.log(e);
         return { error: e.message };
     }
+}
+
+async function getLinksAmount(whereClause) {
+    try {
+        let query = db(links.tableName)
+                        .count('*');
+        if (whereClause) {
+            query = query.where(whereClause);
+        }
+
+        const result = await query;
+        return result.length ? +result[0].count : 0;
+    } catch (e) {
+        return { error: e.message };
+    }
+
 }
 module.exports = {
     createLink,
     getLinks,
-    updateLinks,
+    updateLink,
     deleteLink,
-    incrementViews
+    incrementViews,
+    getLinksAmount
 };

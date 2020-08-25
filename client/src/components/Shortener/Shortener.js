@@ -3,7 +3,7 @@ import { Paper, InputBase, Box, Chip, Typography, Grid, IconButton, Link } from 
 import Loader from '../Loader';
 import SendIcon from '@material-ui/icons/Send';
 import AuthContext from '../../context/auth.context';
-import useLink from '../../hooks/link.hook';
+import useShortener from '../../hooks/shortener.hook';
 import Copiable from '../wrappers/Copiable';
 import './Shortener.scss';
 
@@ -75,13 +75,13 @@ const ShortenedLinkBadge = ({ link }) => {
 
 const Shortener = () => {
     const auth = useContext(AuthContext);
-    const link = useLink(auth.isAuthenticated);
+    const shortener = useShortener(auth.isAuthenticated);
 
     const onChangeHandler = (name) => (e) => {
-        return link.setValue(name, e.target.value);
+        return shortener.setValue(name, e.target.value);
     };
 
-    const readOnly = link.isLoading;
+    const readOnly = shortener.isLoading;
 
     let advancedSettings = null;
     if (auth.isAuthenticated) {
@@ -90,33 +90,28 @@ const Shortener = () => {
                 <SmallTextField 
                     readOnly={readOnly}
                     fieldName="Custom link"
-                    value={link.endpoint.value}
-                    error={link.endpoint.error}
+                    value={shortener.endpoint.value}
+                    error={shortener.endpoint.error}
                     onChangeHandler={onChangeHandler('endpoint')}
                 />
                 <SmallTextField 
                     readOnly={readOnly}
                     fieldName="Password"
-                    value={link.password.value}
-                    error={link.password.error}
+                    value={shortener.password.value}
+                    error={shortener.password.error}
                     onChangeHandler={onChangeHandler('password')}
                 />
                 <SmallTextField 
                     xs={12} 
                     readOnly={readOnly}
                     fieldName="Description"
-                    value={link.description.value}
-                    error={link.description.error}
+                    value={shortener.description.value}
+                    error={shortener.description.error}
                     onChangeHandler={onChangeHandler('description')}
                 />
             </Grid>                    
         );
     }
-
-
-    // if (link.isLoading) {
-    //     return 'LOADING....';
-    // }
 
     return (
 
@@ -125,14 +120,14 @@ const Shortener = () => {
 
                 <MainTextField 
                     readOnly={readOnly}
-                    value={link.origin.value} 
-                    error={link.origin.error}
+                    value={shortener.origin.value} 
+                    error={shortener.origin.error}
                     onChangeHandler={onChangeHandler('origin')}
-                    submit={link.create}
+                    submit={shortener.create}
                 />
                 {
-                    !link.isLoading && link.finalEndpoint
-                        ? <ShortenedLinkBadge link={link.finalEndpoint} />
+                    !shortener.isLoading && shortener.finalEndpoint
+                        ? <ShortenedLinkBadge link={shortener.finalEndpoint} />
                         : null
                 }
                 { advancedSettings }

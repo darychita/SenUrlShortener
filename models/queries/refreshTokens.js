@@ -27,7 +27,6 @@ async function deleteToken(token) {
                         .delete()
                         .where({ [refreshTokens.token]: token });
     } catch (e) {
-        console.log(e);
         return { error: e };
     }
 }

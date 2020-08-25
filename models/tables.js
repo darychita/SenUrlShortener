@@ -31,6 +31,7 @@ module.exports = {
         createdAt: 'createdAt',
         isProtected: 'isProtected',
         password: 'password',
-        description: 'description'
+        description: 'description',
+        uuid: 'uuid'
     }
 };

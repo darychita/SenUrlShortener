@@ -8,7 +8,6 @@ async function createUser(user) { // user { username, email, password }
         const result = await db(users.tableName).insert(user).returning('*');
         return result.length != 0 ? result[0] : null;
     } catch (e) {
-        console.log(e);
         return {
             error: true,
             message: e.message

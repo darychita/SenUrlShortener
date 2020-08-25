@@ -3,16 +3,18 @@ const { nanoid } = require('nanoid');
 const {
     createLink,
     deleteLink,
-    // updateLinks,
+    updateLink,
     getLinks,
-    incrementViews
+    incrementViews,
+    getLinksAmount
 } = require('./queries/links');
+const { validateIsEmpty } = require('../utils');
 
 class Link {
     constructor({ id = -1, ownerId, views,
                 origin, endpoint = nanoid(7),
                 createdAt, password,
-                description } = {}) {
+                description, uuid } = {}) {
         this.id = id;
         this.ownerId = ownerId;
         this.views = views;
@@ -22,6 +24,7 @@ class Link {
         this.isProtected = !!password;
         this.password = password;
         this.description = description;
+        this.uuid = uuid;
     }
 
     async save() {
@@ -51,6 +54,22 @@ class Link {
         return null;
     }
 
+    async update(updateSet = validateIsEmpty('Updateset in Link')) {
+        const updated = await updateLink(this.uuid, updateSet);
+        if (!updated || (updated && updated.error)) {
+            throw new Error('Cannot update link.');
+        }
+        Object.entries(updated).forEach(([key, value]) => {
+            this[key] = value;
+        });
+        return this;
+    }
+
+    async delete() {
+        await deleteLink(this.uuid);
+        return null;
+    }
+
     static async findLinkByEndpoint(endpoint) {
         const link = await getLinks({ endpoint }, 1);
         if (link && link.error) {
@@ -58,6 +77,22 @@ class Link {
         }
 
         return link ? new Link(link) : null;
+    }
+
+    static async getLinksByUserId(userId, limit, offset) {
+        const raw = await getLinks({ ownerId: userId }, limit, offset);
+        if (!raw) {
+            return null;
+        }
+        if (raw.error) {
+            throw new Error(raw.error);
+        }
+        const links = [raw].flat(1).map((link) => new Link(link));
+        return links;
+    }
+
+    static async getAmountOfLinksInUser(userId) {
+        return await getLinksAmount({ ownerId: userId });
     }
 }
 

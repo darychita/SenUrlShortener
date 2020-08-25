@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+import Copiable from '../wrappers/Copiable';
 import Link from '@material-ui/core/Link';
 import TableCell from '../TableCell';
 import TableRow from '../TableRow';
@@ -27,23 +29,28 @@ const LinkItem = ({
     return (
         <TableRow>
             <TableCell component="th" scope="row">
-                <Link 
+                <Link
                     href={destinationLink} 
-                    noWrap={true} 
-                    style={{display: 'inline-block', maxWidth: '400px', width: '100%'}}
+                    className="link"
                 >
                     {destinationLink}
                 </Link>
             </TableCell>
             <TableCell>
-                <ActionButton icon={<FileCopyIcon  />} size="small"/>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <Link href={shortenLink}>
-                    {shortenLink}
-                </Link>
+                <div className="link-dest-cell">
+                    <Copiable textToCopy={shortenLink}>
+                        <ActionButton icon={<FileCopyIcon />}  size="small"/>
+                    </Copiable>
+                    <Link 
+                        href={shortenLink}
+                        className="link link-dest"
+                    >
+                        {shortenLink}
+                    </Link>
+                </div>
             </TableCell>
             <TableCell align="center">
-                {createdAt}
+                {moment(createdAt).format('ll')}
             </TableCell>
             <TableCell align="center">
                 {viewsAmount}

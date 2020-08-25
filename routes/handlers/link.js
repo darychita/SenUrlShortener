@@ -35,7 +35,6 @@ const shortLink = async (req, res) => {
 
 
 const findLink = async (req, res) => {
-    console.log('hey');
     const host = process.env.NODE_ENV === 'development'
                 ? process.env.CLIENT_HOST
                 : process.env.HOST;
@@ -43,7 +42,6 @@ const findLink = async (req, res) => {
     const candidate = await Link.findLinkByEndpoint(endpoint);
     if (!candidate) {
         return res.redirect(`${host}/404`);
-        // return res.status(404).send();
     }
 
     if (candidate.isProtected) {
@@ -65,9 +63,47 @@ const findLink = async (req, res) => {
     } else {
         return res.json({ origin: candidate.origin });
     }
-
 };
+
+
+const updateLink = async (req, res) => {
+    const { uuid } = req.params;
+    const link = new Link({ uuid });
+    const updateSet = req.body;
+    if (updateSet.password) {
+        return res.status(400).json({
+            message: 'Password on link cannot be updated'
+        });
+    }
+    try {
+        await link.update(updateSet);
+        return res.json({
+            message: 'Link updated successfully'
+        });
+    } catch (e) {
+        if (e.message.includes('updateset')) {
+            return res.status(400).json({
+                message: 'Please, provide correct body for updating link.'
+            });
+        }
+        return res.status(500).json({ message: e.message });
+    }
+};
+
+const deleteLink = async (req, res) => {
+    const { uuid } = req.params;
+    const link = new Link({ uuid });
+    try {
+        await link.delete();
+        return res.status(204).send();
+    } catch (e) {
+        return res.status(500).json({ message: 'Cannot delete link' });
+    }
+};
+
 module.exports = {
     shortLink,
-    findLink
+    findLink,
+    updateLink,
+    deleteLink
 };
