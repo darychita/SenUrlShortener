@@ -11,7 +11,7 @@ async function createLink(link) {
     }
 }
 
-async function getLinks(whereClause, limit, offset = 0) {
+async function getLinks(whereClause, limit, offset) {
     try {
         let query = db(links.tableName)
                     .select('*')

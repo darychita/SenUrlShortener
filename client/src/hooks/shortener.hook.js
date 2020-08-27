@@ -1,9 +1,12 @@
-import { useReducer, useState } from 'react';
+import { useReducer, useState, useContext } from 'react';
 import linkValidation from '../validation/link';
 import { createLink } from '../service/link.service';
 import normalizeLink from '../helpers/normalizeLink';
+import LinksContext from '../context/links.context';
 
 const useShortener = (isAuthenticated) => {
+    const { addLink } = useContext(LinksContext);
+
     const reducer = (state, action) => {
         switch(action.type) {
             case 'value': {
@@ -62,10 +65,16 @@ const useShortener = (isAuthenticated) => {
             const normalized = normalizeLink(link);
             await linkValidation.validate(normalized, { abortEarly: false });
 
-            const { endpoint } = await createLink(normalized, isAuthenticated);
+            const { endpoint, uuid } = await createLink(normalized, isAuthenticated);
+            
+            normalized.endpoint = endpoint;
+            normalized.uuid = uuid;
+            normalized.views = 0;
 
             setLoading(false);
             setFinalEnpoint(endpoint);
+            
+            addLink(normalized);
         }  catch(e) {
             setLoading(false);
             if (e.name === 'ValidationError') {

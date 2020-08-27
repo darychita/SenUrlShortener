@@ -31,30 +31,14 @@ const TableBodySpinner = () => (
     </TableRow>
 );
 
-const List = ({ links }) => {
+const List = ({ links, start, end, deleteLink }) => {
     return (
         <>
-            <TableRow>
-                <TableCell colSpan={5} align="right">
-                    <TextField 
-                        size="small"
-                        variant="outlined"
-                        placeholder="Search"
-                        InputProps={{
-                            startAdornment: <InputAdornment position="start">
-                                                <SearchIcon />
-                                            </InputAdornment>,
-                        }}
-                    />
-                </TableCell>
-            </TableRow>
             {
-                links.map((link) => (
+                links.slice(start, end).map((link) => (
                     <LinkItem key={link.uuid}
-                        destinationLink={link.origin}
-                        shortenLink={link.endpoint}
-                        createdAt={link.createdAt}
-                        viewsAmount={link.views}
+                        item={link}
+                        deleteItem={deleteLink}
                     />
                 ))
             }
@@ -67,32 +51,56 @@ const LinksList = () =>  {
     const classes = useStyles();
     const { isLoading, 
             links, 
-            rowsPerPage: [ rowsPerPage, setRowsPerPage],
-            page: [page, setPage ],
-            amount 
+            rowsPerPage: [ rowsPerPage, setRowsPerPage ],
+            page: [ page, setPage ],
+            searchQuery: [ searchQuery, setSearchQuery ],
+            deleteLinkItem 
     } = useContext(LinksContext);
 
     const handleChangeRowsPerPage = (e) => {
-        console.log(+e.target.value);
         setRowsPerPage(+e.target.value);
         setPage(0);
     };
 
     const handleChangePage = (_, newPage) => {
-        console.log(newPage);
         setPage(newPage)
     };
+
+    const searchQueryHandler = (e) => setSearchQuery(e.target.value);
 
     return (
       <Paper elevation={4}>
           <TableContainer>
-              <Table className={classes.table} aria-label="customized table">
-                  <TableHeader />
-                  <TableBody>
+              <Table className={classes.table}>
+                <TableHeader />
+                <TableBody>
+                    <TableRow>
+                        <TableCell colSpan={5} align="right">
+                            <TextField 
+                                size="small"
+                                variant="outlined"
+                                value={searchQuery}
+                                onChange={searchQueryHandler}
+                                placeholder="Search"
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">
+                                                        <SearchIcon />
+                                                    </InputAdornment>,
+                                }}
+                            />
+                        </TableCell>
+                    </TableRow>
+
                   {
                       isLoading 
                       ? <TableBodySpinner />
-                      : <List links={links} />
+                      : <List 
+                            searchQuery
+                            links={links} 
+                            start={page * rowsPerPage}
+                            end={page * rowsPerPage + rowsPerPage}
+                            deleteLink={deleteLinkItem}
+                        />
                   }
                   </TableBody>
               </Table>
@@ -100,8 +108,8 @@ const LinksList = () =>  {
           <TablePagination 
                 onChangePage={() => {}}
                 component="div"
-                rowsPerPageOptions={[10, 25, 100]}
-                count={amount}
+                rowsPerPageOptions={[5, 10, 25, 100]}
+                count={links.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

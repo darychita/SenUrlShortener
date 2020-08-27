@@ -147,7 +147,6 @@ const deleteUser = async (req, res) => {
 const getUserLinks = async (req, res) => {
     const { userId } = req;
     const { per_page, page } = req.query;
-    console.log(per_page, page);
     try {
         const links = await Link.getLinksByUserId(userId, +per_page, +page);
         const amount = await Link.getAmountOfLinksInUser(userId);
@@ -161,6 +160,7 @@ const getUserLinks = async (req, res) => {
             delete link.password;
             link.endpoint = `${process.env.HOST}/t/${link.endpoint}`;
         });
+
         return res.json({
             page: +page,
             perPage: +per_page,

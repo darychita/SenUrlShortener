@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import Copiable from '../wrappers/Copiable';
 import Link from '@material-ui/core/Link';
+import Collapse from '@material-ui/core/Collapse';
+import Grid from '@material-ui/core/Grid';
 import TableCell from '../TableCell';
 import TableRow from '../TableRow';
-import { IconButton } from '@material-ui/core';
+import UpdateForm from './UpdateForm';
+import { IconButton, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import CropFreeIcon from '@material-ui/icons/CropFree';
@@ -21,47 +24,72 @@ const ActionButton = ({ icon, ...otherProps }) => {
 };
 
 const LinkItem = ({ 
-        destinationLink,
-        shortenLink,
-        createdAt,
-        viewsAmount 
+        item: {origin, endpoint, createdAt, views, uuid, description },
+        deleteItem,
+        updateItem
     }) => {
+
+    const [ isCollapsed, setCollapsed ] = useState(false);
+
     return (
-        <TableRow>
-            <TableCell component="th" scope="row">
-                <Link
-                    href={destinationLink} 
-                    className="link"
-                >
-                    {destinationLink}
-                </Link>
-            </TableCell>
-            <TableCell>
-                <div className="link-dest-cell">
-                    <Copiable textToCopy={shortenLink}>
-                        <ActionButton icon={<FileCopyIcon />}  size="small"/>
-                    </Copiable>
-                    <Link 
-                        href={shortenLink}
-                        className="link link-dest"
+        <>
+            <TableRow>
+                <TableCell component="th" scope="row">
+                    <Link
+                        href={origin} 
+                        className="link"
                     >
-                        {shortenLink}
+                        {origin}
                     </Link>
-                </div>
-            </TableCell>
-            <TableCell align="center">
-                {moment(createdAt).format('ll')}
-            </TableCell>
-            <TableCell align="center">
-                {viewsAmount}
-            </TableCell>
-            <TableCell align="right">
-                <ActionButton icon={<CropFreeIcon />} />
-                <ActionButton icon={<EditIcon />} />
-                <ActionButton color="primary" icon={<BarChartIcon />} />
-                <ActionButton color="secondary" icon={<DeleteIcon />} />
-            </TableCell>
-        </TableRow>
+                </TableCell>
+                <TableCell>
+                    <div className="link-dest-cell">
+                        <Copiable textToCopy={endpoint}>
+                            <ActionButton icon={<FileCopyIcon />}  size="small"/>
+                        </Copiable>
+                        <Link 
+                            href={endpoint}
+                            className="link link-dest"
+                        >
+                            {endpoint}
+                        </Link>
+                    </div>
+                </TableCell>
+                <TableCell align="center">
+                    {moment(createdAt).format('ll')}
+                </TableCell>
+                <TableCell align="center">
+                    {views}
+                </TableCell>
+                <TableCell align="right">
+                    <ActionButton icon={<CropFreeIcon />} />
+                    <ActionButton 
+                        color={isCollapsed ? 'secondary' : 'default'}
+                        icon={<EditIcon />} 
+                        onClick={() => setCollapsed((isCollapsed) => !isCollapsed)}
+                    />
+                    <ActionButton color="primary" icon={<BarChartIcon />} />
+                    <ActionButton 
+                        color="secondary" 
+                        icon={<DeleteIcon />} 
+                        onClick={() => deleteItem(uuid)}
+                    />
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
+                    <Collapse in={isCollapsed} unmountOnExit>
+                        <UpdateForm 
+                            origin={origin}
+                            endpoint={endpoint}
+                            description={description}
+                            uuid={uuid}
+                            onUpdate={(uuid) => setCollapsed(false)}
+                        />
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </>
     );
 };
 

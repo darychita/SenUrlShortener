@@ -2,22 +2,24 @@ import React, { useContext } from 'react';
 import { Paper, InputBase, Box, Chip, Typography, Grid, IconButton, Link } from '@material-ui/core';
 import Loader from '../Loader';
 import SendIcon from '@material-ui/icons/Send';
+import SmallTextField from '../SmallTextField';
 import AuthContext from '../../context/auth.context';
 import useShortener from '../../hooks/shortener.hook';
 import Copiable from '../wrappers/Copiable';
+import ErrorValidation from '../ErrorTextFieldLabel';
 import './Shortener.scss';
 
-const ErrorValidation = ({ message }) => {
-    if (!message) {
-        return null;
-    }
+// const ErrorValidation = ({ message }) => {
+//     if (!message) {
+//         return null;
+//     }
 
-    return (
-        <Typography variant="caption" display="block" className="shortener__input-error" >
-            { message }
-        </Typography>
-    )
-};
+//     return (
+//         <Typography variant="caption" display="block" className="shortener__input-error" >
+//             { message }
+//         </Typography>
+//     )
+// };
 const MainTextField = ({ value, error, onChangeHandler, submit, readOnly }) => (
     <Box>
         <Paper className="shortener__paper" elevation={1}>
@@ -39,23 +41,6 @@ const MainTextField = ({ value, error, onChangeHandler, submit, readOnly }) => (
         </Paper>
         <ErrorValidation message={error} />
     </Box>
-);
-
-const SmallTextField = ({ fieldName, value, error, onChangeHandler, xs=6, readOnly }) => (
-    <Grid item xs={xs} className="shortener__small-input__container">
-        <Typography color="textPrimary">{fieldName}</Typography>
-        <Paper elevation={1}>
-            <InputBase 
-                readOnly={readOnly}
-                className="shortener__small-input" 
-                size="small" 
-                placeholder={fieldName} 
-                value={value}
-                onChange={onChangeHandler}
-            />
-        </Paper>
-        <ErrorValidation message={error} />
-    </Grid>
 );
 
 const ShortenedLinkBadge = ({ link }) => {
@@ -88,6 +73,7 @@ const Shortener = () => {
         advancedSettings = (
             <Grid container spacing={4}>
                 <SmallTextField 
+                    className="shortener__small-input__container"
                     readOnly={readOnly}
                     fieldName="Custom link"
                     value={shortener.endpoint.value}
@@ -95,14 +81,17 @@ const Shortener = () => {
                     onChangeHandler={onChangeHandler('endpoint')}
                 />
                 <SmallTextField 
+                    className="shortener__small-input__container"
                     readOnly={readOnly}
+                    type="password"
                     fieldName="Password"
                     value={shortener.password.value}
                     error={shortener.password.error}
                     onChangeHandler={onChangeHandler('password')}
                 />
                 <SmallTextField 
-                    xs={12} 
+                    xs={12}
+                    className="shortener__small-input__container" 
                     readOnly={readOnly}
                     fieldName="Description"
                     value={shortener.description.value}

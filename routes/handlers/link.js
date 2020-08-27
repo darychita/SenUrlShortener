@@ -18,6 +18,7 @@ const shortLink = async (req, res) => {
         await link.save();
 
         return res.status(201).json({
+            uuid: link.uuid,
             endpoint: `${process.env.HOST}/t/${link.endpoint}`
         });
 

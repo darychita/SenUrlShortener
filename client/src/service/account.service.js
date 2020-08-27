@@ -107,15 +107,19 @@ export async function deleteUser() {
     }
 }
 
-export async function getUserLinks(page = 0, perPage = 10) {
-    // try {
+export async function getUserLinks(page, perPage) {
+    try {
+        let url = '/user/link';
+        if (page && perPage) {
+            url += `?page=${page}&per_page=${perPage}`;
+        }
         const resp = await fetchWithAuth(`/user/link?page=${page}&per_page=${perPage}`);
         const body = await resp.json();
         if (resp.ok) {
             return Promise.resolve(body);
         }
         return Promise.reject(body.message);
-    // } catch (e) {
-        // console.log(e);
-    // }
+    } catch (e) {
+        console.log(e);
+    }
 }

@@ -41,6 +41,7 @@ class Link {
 
         this.id = saved[0].id;
         this.createdAt = saved[0].createdAt;
+        this.uuid = saved[0].uuid;
         return this;
     }
 
