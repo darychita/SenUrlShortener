@@ -78,7 +78,7 @@ const useLink = () => {
     const [ page, setPage ] = useState(0);
     const [ amount, setAmount ] = useState(0);
     const [ searchQuery, setSearchQuery ] = useState('');
-
+    
     const [ state, dispatch ] = useReducer(reducer, initialState);
 
     const setFetched = ({ links, amount }) => {

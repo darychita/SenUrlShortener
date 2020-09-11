@@ -24,30 +24,28 @@ import './App.scss';
 const App = () => {
 
     const { isAuthenticated, login, logout, deleteTokens } = useAuth();
-    const links = useLink();
+    console.log(isAuthenticated);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout, deleteTokens }}>
-            <LinksContext.Provider value={links}>
-                <Router>
-                    <AppHeader />
-                    <Switch>
-                        <Route path="/" 
-                            exact 
-                            component={isAuthenticated ? PersonalPage : HomePage} 
-                        />
-                        <Route path="/protected/:endpoint" exact component={ProtectedLinkPage} />
-                        <PrivateRoute path="/settings" component={SettingsPage} />
-                        <PublicRoute path="/login" component={LoginPage} />
-                        <PublicRoute path="/register/confirm/:token" component={EmailConfirmPage} />
-                        <PublicRoute path="/register" component={RegistrationPage} />
-                        <PublicRoute path="/password/reset" component={ResetPasswordRequestPage} />
-                        <PublicRoute path="/reset/:token" component={ResetPasswordConfirmPage} />
-                        <Route path="/404" exact component={Page404} />
-                        <Redirect to="/404" />
-                    </Switch>
-                </Router>
-            </LinksContext.Provider> 
+            <Router>
+                <AppHeader />
+                <Switch>
+                    <Route path="/" 
+                        exact 
+                        component={isAuthenticated ? PersonalPage : HomePage } 
+                    />
+                    <PublicRoute path="/login" component={LoginPage} />
+                    <Route path="/protected/:endpoint" exact component={ProtectedLinkPage} />
+                    <PublicRoute path="/register/confirm/:token" component={EmailConfirmPage} />
+                    <PublicRoute path="/register" component={RegistrationPage} />
+                    <PrivateRoute path="/settings" component={SettingsPage} />
+                    <PublicRoute path="/password/reset" component={ResetPasswordRequestPage} />
+                    <PublicRoute path="/reset/:token" component={ResetPasswordConfirmPage} />
+                    <Route path="/404" exact component={Page404} />
+                    <Redirect to="/404" />
+                </Switch>
+            </Router>
         </AuthContext.Provider>
     );
 };

@@ -9,7 +9,6 @@ const useStyle = makeStyles(() => ({
 }))
 const SmallTextField = ({ fieldName, value, error, onChangeHandler, xs = 6, readOnly, type,  ...otherProps }) => {
     const styles = useStyle();
-
     return (
         <Grid item xs={xs} {...otherProps}>
             <Typography color="textPrimary" className={styles.heading}>{fieldName}</Typography>
@@ -23,7 +22,7 @@ const SmallTextField = ({ fieldName, value, error, onChangeHandler, xs = 6, read
                     placeholder={fieldName} 
                     value={value}
                     onChange={onChangeHandler}
-                    autoComplete="false"
+                    autoComplete="new-password"
                 />
             </Paper>
             <ErrorValidation message={error} />

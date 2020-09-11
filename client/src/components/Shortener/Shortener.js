@@ -9,17 +9,6 @@ import Copiable from '../wrappers/Copiable';
 import ErrorValidation from '../ErrorTextFieldLabel';
 import './Shortener.scss';
 
-// const ErrorValidation = ({ message }) => {
-//     if (!message) {
-//         return null;
-//     }
-
-//     return (
-//         <Typography variant="caption" display="block" className="shortener__input-error" >
-//             { message }
-//         </Typography>
-//     )
-// };
 const MainTextField = ({ value, error, onChangeHandler, submit, readOnly }) => (
     <Box>
         <Paper className="shortener__paper" elevation={1}>
@@ -58,9 +47,10 @@ const ShortenedLinkBadge = ({ link }) => {
     );
 };
 
-const Shortener = () => {
+const Shortener = ({ addLink }) => {
+
     const auth = useContext(AuthContext);
-    const shortener = useShortener(auth.isAuthenticated);
+    const shortener = useShortener(auth.isAuthenticated, addLink);
 
     const onChangeHandler = (name) => (e) => {
         return shortener.setValue(name, e.target.value);
@@ -106,7 +96,6 @@ const Shortener = () => {
 
         <Box className="shortener">
             <form noValidate autoComplete="off">
-
                 <MainTextField 
                     readOnly={readOnly}
                     value={shortener.origin.value} 

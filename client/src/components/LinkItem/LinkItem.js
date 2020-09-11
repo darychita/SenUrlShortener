@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import TableCell from '../TableCell';
 import TableRow from '../TableRow';
 import UpdateForm from './UpdateForm';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, useMediaQuery } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import CropFreeIcon from '@material-ui/icons/CropFree';
@@ -33,8 +33,8 @@ const LinkItem = ({
 
     return (
         <>
-            <TableRow>
-                <TableCell component="th" scope="row">
+            <TableRow className="link-item-row">
+                <TableCell scope="row">
                     <Link
                         href={origin} 
                         className="link"

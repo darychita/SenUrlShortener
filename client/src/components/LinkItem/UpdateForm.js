@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import SmallTextField from '../SmallTextField';
 import Grid from '@material-ui/core/Grid';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinksContext from '../../context/links.context';
@@ -9,6 +10,7 @@ import linkValidation from '../../validation/link';
 const UpdateForm = ({ origin, endpoint, description, uuid, onUpdate }) => {
 
     endpoint = endpoint.split('/').pop();
+    const matches = useMediaQuery('(max-width: 810px)');
 
     const { updateLinkItem } = useContext(LinksContext);
 
@@ -58,7 +60,7 @@ const UpdateForm = ({ origin, endpoint, description, uuid, onUpdate }) => {
 
     return (
         <form className="link__edit-form" onSubmit={submitHandler}>
-            <Grid container spacing={4} style={{width: '50%', margin: '0 auto'}}>
+            <Grid container spacing={4}>
                 <Grid item xs={12} style={{paddingTop: 0, color: 'red'}}>
                     <Typography variant="body2" align="center">{ submitError }</Typography>
                 </Grid>
@@ -76,14 +78,14 @@ const UpdateForm = ({ origin, endpoint, description, uuid, onUpdate }) => {
                     onChangeHandler={changeHandler(setEndpoint)}          
                     error={errors.endpoint}                   
                 />
-                <SmallTextField xs={9}
+                <SmallTextField xs={matches ? 7 : 8}
                     fieldName="Description"
                     className="link__edit-text"
                     value={descriptionValue}
                     onChangeHandler={changeHandler(setDescription)}
                     error={errors.description}
                 />
-                <Grid item xs={2}>
+                <Grid item xs={1}>
                     <Button type="submit"
                         color="secondary" 
                         variant="contained" 

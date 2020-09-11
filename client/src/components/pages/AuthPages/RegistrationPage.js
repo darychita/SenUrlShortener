@@ -5,6 +5,7 @@ import RegistrationSuccessful from './RegistrationSuccessful';
 import { registrationSchema } from '../../../validation';
 
 const RegistrationPage = () => {
+    console.log('registration')
     const [ formCompletedMessage, setFormCompleted ] = useState(null);
     const account = useAccount();
 

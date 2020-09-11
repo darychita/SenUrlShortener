@@ -113,13 +113,14 @@ export async function getUserLinks(page, perPage) {
         if (page && perPage) {
             url += `?page=${page}&per_page=${perPage}`;
         }
-        const resp = await fetchWithAuth(`/user/link?page=${page}&per_page=${perPage}`);
+        const resp = await fetchWithAuth(url);
         const body = await resp.json();
         if (resp.ok) {
             return Promise.resolve(body);
         }
         return Promise.reject(body.message);
     } catch (e) {
+        // throw e;
         console.log(e);
     }
 }

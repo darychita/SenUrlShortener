@@ -17,13 +17,74 @@
 
     &__edit-form {
         padding: 20px 0;
+
+        & .MuiGrid-container {
+            width: 50%;
+            margin: 0 auto;
+
+            @media screen and (max-width: 810px){
+                width: 100%;
+            }
+        }
     }
 
     &__update-btn {
         margin-top: 17px!important;
     }
+
+    @media screen and (max-width: 1200px){
+        max-width: 200px;
+
+        &.link-dest {
+            max-width: 100px;
+        }
+    }
+
+    @media screen and (max-width: 810px) {
+        max-width: 200px;
+
+        &.link-dest {
+            max-width: 200px;
+        }
+    }
 }
 
+.link-item-row { 
+    @media screen and (max-width: 810px) {
+        td::before {
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        td:nth-child(1):before {
+            content: 'Destination Link: ';
+        }
+        td:nth-child(2):before {
+            content: 'Shorten Link: ';
+        }
+        td:nth-child(3):before {
+            content: 'Created: ';
+        }
+        td:nth-child(4):before {
+            content: 'Views:';
+        }
+
+        td:nth-child(5) {
+            justify-content: center;
+            flex-direction: revert;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        td:nth-child(1):before {
+            content: none;
+        }
+        td:nth-child(2):before {
+            content: none;
+        }
+    }
+
+}
 .link-dest-cell {
     display: flex;
     align-items: center;

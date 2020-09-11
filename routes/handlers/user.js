@@ -145,6 +145,7 @@ const deleteUser = async (req, res) => {
 };
 
 const getUserLinks = async (req, res) => {
+    console.log('LINKS LIST');
     const { userId } = req;
     const { per_page, page } = req.query;
     try {
@@ -160,12 +161,11 @@ const getUserLinks = async (req, res) => {
             delete link.password;
             link.endpoint = `${process.env.HOST}/t/${link.endpoint}`;
         });
-
         return res.json({
             page: +page,
             perPage: +per_page,
             amount,
-            links
+            links: links.length ? links : null
         });
     } catch (e) {
         return res.status(500).json({ message: 'Oops, something went wrong'});

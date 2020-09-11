@@ -2,6 +2,11 @@
     width: 45%;
     padding: 3%;
     
+
+    @media screen and (max-width: 600px) {
+        width: 85%;
+    }       
+
     .Mui-avatar {
         margin: 16px;
     }

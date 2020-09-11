@@ -1,0 +1,14 @@
+.links-list-body {
+    
+    @media screen and (max-width: 810px) {
+    //     display: block!important;
+    //     width: 100%;
+        tbody, tbody tr {
+            display: block;
+        }
+        td {            
+            display: flex;
+            align-items: center;
+        }
+    }
+}

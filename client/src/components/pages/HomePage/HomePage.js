@@ -10,6 +10,7 @@ import './HomePage.scss';
 
 
 const HomePage = () => {
+    console.log('home');
     return (
         <Box className="home">
             <section className="home__banner">
