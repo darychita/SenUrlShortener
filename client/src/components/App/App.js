@@ -24,7 +24,6 @@ import './App.scss';
 const App = () => {
 
     const { isAuthenticated, login, logout, deleteTokens } = useAuth();
-    console.log(isAuthenticated);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout, deleteTokens }}>

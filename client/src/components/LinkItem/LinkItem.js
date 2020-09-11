@@ -14,6 +14,7 @@ import CropFreeIcon from '@material-ui/icons/CropFree';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import EditIcon from '@material-ui/icons/Edit';
 import './LinkItem.scss';
+import QRDialog from '../QRDialog';
 
 const ActionButton = ({ icon, ...otherProps }) => {
     return (
@@ -30,9 +31,17 @@ const LinkItem = ({
     }) => {
 
     const [ isCollapsed, setCollapsed ] = useState(false);
+    const [ qr, setQr ] = useState(false);
+
+    const handleQrOpen = () => setQr(true);
 
     return (
         <>
+            {
+                qr ? 
+                <QRDialog dest={endpoint} open={qr} onClose={() => setQr(false)} />
+                : null
+            }
             <TableRow className="link-item-row">
                 <TableCell scope="row">
                     <Link
@@ -62,7 +71,7 @@ const LinkItem = ({
                     {views}
                 </TableCell>
                 <TableCell align="right">
-                    <ActionButton icon={<CropFreeIcon />} />
+                    <ActionButton icon={<CropFreeIcon />} onClick={handleQrOpen}/>
                     <ActionButton 
                         color={isCollapsed ? 'secondary' : 'default'}
                         icon={<EditIcon />} 
